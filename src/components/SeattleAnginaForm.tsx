@@ -1,6 +1,6 @@
 'use client'
 
-import { ConnectWelshareButton, useWelshare } from '@welshare/react';
+import { ConnectWelshareButton, Schemas, useWelshare } from '@welshare/react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import questionnaireData from '../seattle_angina.json';
@@ -140,7 +140,7 @@ export default function SeattleAnginaForm() {
     console.log('Submitting QuestionnaireResponse:', JSON.stringify(response, null, 2));
     
     try {
-      //await submitData(Schemas.QuestionnaireResponse, response);
+      await submitData(Schemas.QuestionnaireResponse, response);
     } catch (error) {
       console.error('Failed to submit data:', error);
       toast.error('Submission Failed', {
@@ -148,9 +148,7 @@ export default function SeattleAnginaForm() {
         duration: 5000,
       });
       setIsSubmitting(false);
-    } finally {
-      setIsSubmitting(false);
-    }
+    } 
   };
 
   const findQuestionByLinkId = (linkId: string): any => {
