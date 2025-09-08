@@ -1,36 +1,27 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Seattle Angina Questionnaire on Welshare
 
-## Getting Started
+This is a demo on how you can use plain LLMs and the welshare docs' llms.txt to build questionnaire forms from common panel definitions to submit them to a welshare user profile using the [welshare React SDK](https://www.npmjs.com/package/@welshare/react).
 
-First, run the development server:
+## vibing this with Claude Code
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- download some loinc panel and adjust to your needs, we use https://loinc.org/88479-1/ here. Save as a JSON file (eventually remove the bundle wrapper)
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- our prompt:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> init an npm repo and create a Nextjs application. It should render a webform for users to answer questions according to the seattle_angina.json Fhir questionnnaire definition.  
+> 
+> The form data must be submitted in accordance to the QuestionnaireResponse for this specific questionnaire definition. Upon submission the   data should go into the welshare wallet as explained here: https://docs.welshare.app/llms-full.txt.  
+>
+> The style should look very ugly: it should have a  purple background, green text and input boxes with rounded edges that have a yellow background.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- we had to tell Claude that some things weren't working great.
+- get an application id, register the questionniare at welshare, get the questionnaire id, put it down in the .env file. See: https://docs.welshare.app/sdk#configuration-prerequisites
 
-## Learn More
+- tell Claude to update the alerts and toasts to not show preliminary errors during the connection phase
 
-To learn more about Next.js, take a look at the following resources:
+- we finally provided Claude with [the paper that explains the SAQ computation](https://www.jacc.org/doi/epdf/10.1016/0735-1097%2894%2900397-9)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

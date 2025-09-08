@@ -1,0 +1,449 @@
+{
+  "resourceType": "Questionnaire",
+  "id": "88479-1",
+  "meta": {
+    "versionId": "7",
+    "lastUpdated": "2024-08-06T21:03:46.493+00:00",
+    "source": "#WEjguR255B3Y7qmH"
+  },
+  "url": "http://loinc.org/q/88479-1",
+  "name": "Seattle_Angina_Questionnaire_items",
+  "title": "Seattle Angina Questionnaire - 7 items",
+  "status": "draft",
+  "subjectType": ["Patient"],
+  "publisher": "Regenstrief Institute, Inc.",
+  "contact": [
+    {
+      "name": "Regenstrief Institute, Inc.",
+      "telecom": [
+        {
+          "system": "url",
+          "value": "http://loinc.org"
+        }
+      ]
+    }
+  ],
+  "copyright": "This material contains content from LOINC (http://loinc.org). LOINC is copyright © Regenstrief Institute, Inc. and the Logical Observation Identifiers Names and Codes (LOINC) Committee. All rights reserved. LOINC is available at no cost under the license at http://loinc.org/license. LOINC® is a registered United States trademark of Regenstrief Institute, Inc.\r\nCopyright © 1995-2005 John Spertus, MD, MPH. Used with permission.",
+  "code": [
+    {
+      "system": "http://loinc.org",
+      "code": "88479-1",
+      "display": "Seattle Angina Questionnaire - 7 items"
+    }
+  ],
+  "item": [
+    {
+      "linkId": "94950",
+      "text": "Activity limitations panel",
+      "type": "group",
+      "required": true,
+      "item": [
+        {
+          "linkId": "94952",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "88480-9",
+              "display": "Walking indoors on level ground"
+            }
+          ],
+          "text": "Walking indoors on level ground",
+          "type": "choice",
+          "repeats": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27701-4",
+                "display": "Extremely limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27702-2",
+                "display": "Quite a bit limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6460-5",
+                "display": "Moderately limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA9605-2",
+                "display": "Slightly limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27707-1",
+                "display": "Not at all limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27708-9",
+                "display": "Limited for other reasons or did not do the activity"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "94953",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "88478-3",
+              "display": "Gardening, vacuuming or carrying groceries"
+            }
+          ],
+          "text": "Gardening, vacuuming or carrying groceries",
+          "type": "choice",
+          "repeats": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27701-4",
+                "display": "Extremely limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27702-2",
+                "display": "Quite a bit limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6460-5",
+                "display": "Moderately limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA9605-2",
+                "display": "Slightly limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27707-1",
+                "display": "Not at all limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27708-9",
+                "display": "Limited for other reasons or did not do the activity"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "94954",
+          "code": [
+            {
+              "system": "http://loinc.org",
+              "code": "88477-5",
+              "display": "Lifting or moving heavy objects (e.g. furniture, children)"
+            }
+          ],
+          "text": "Lifting or moving heavy objects (e.g. furniture, children)",
+          "type": "choice",
+          "repeats": false,
+          "answerOption": [
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27701-4",
+                "display": "Extremely limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27702-2",
+                "display": "Quite a bit limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA6460-5",
+                "display": "Moderately limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA9605-2",
+                "display": "Slightly limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27707-1",
+                "display": "Not at all limited"
+              }
+            },
+            {
+              "valueCoding": {
+                "system": "http://loinc.org",
+                "code": "LA27708-9",
+                "display": "Limited for other reasons or did not do the activity"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "linkId": "94955",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88476-7",
+          "display": "Over the past 4 weeks, on average, how many times have you had chest pain, chest tightness or angina?"
+        }
+      ],
+      "text": "Over the past 4 weeks, on average, how many times have you had chest pain, chest tightness or angina?",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA28518-1",
+            "display": "4 or more times per day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA25000-3",
+            "display": "1-3 times per day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27770-9",
+            "display": "3 or more times per week but not every day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA13834-9",
+            "display": "1-2 times per week"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27722-0",
+            "display": "Less than once a week"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA28522-3",
+            "display": "None over the past 4 weeks"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94956",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88475-9",
+          "display": "Over the past 4 weeks, on average, how many times have you had to take nitroglycerin (nitroglycerin tablets or spray) for your chest pain, chest tightness or angina?"
+        }
+      ],
+      "text": "Over the past 4 weeks, on average, how many times have you had to take nitroglycerin (nitroglycerin tablets or spray) for your chest pain, chest tightness or angina?",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA28518-1",
+            "display": "4 or more times per day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA25000-3",
+            "display": "1-3 times per day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27770-9",
+            "display": "3 or more times per week but not every day"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA13834-9",
+            "display": "1-2 times per week"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27722-0",
+            "display": "Less than once a week"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA28522-3",
+            "display": "None over the past 4 weeks"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94957",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88469-2",
+          "display": "Over the past 4 weeks, how much has your chest pain, chest tightness or angina limited your enjoyment of life?"
+        }
+      ],
+      "text": "Over the past 4 weeks, how much has your chest pain, chest tightness or angina limited your enjoyment of life?",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27745-1",
+            "display": "It has extremely limited my enjoyment of life"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27746-9",
+            "display": "It has limited my enjoyment of life quite a bit"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27747-7",
+            "display": "It has moderately limited my enjoyment of life"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27748-5",
+            "display": "It has slightly limited my enjoyment of life"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27749-3",
+            "display": "It has not limited my enjoyment of life at all"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94959",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88473-4",
+          "display": "If you had to spend the rest of your life with your chest pain, chest tightness or angina the way it is right now, how would you feel about this?"
+        }
+      ],
+      "text": "If you had to spend the rest of your life with your chest pain, chest tightness or angina the way it is right now, how would you feel about this?",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA28523-1",
+            "display": "Not satisfied at all"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA24976-5",
+            "display": "Mostly dissatisfied"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27752-7",
+            "display": "Somewhat satisfied"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA24974-0",
+            "display": "Mostly satisfied"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27754-3",
+            "display": "Completely satisfied"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94960",
+      "text": "Physical limitation score",
+      "type": "decimal"
+    },
+    {
+      "linkId": "94961",
+      "text": "Symptom frequency score",
+      "type": "decimal"
+    },
+    {
+      "linkId": "94962",
+      "text": "Quality of life score",
+      "type": "decimal"
+    },
+    {
+      "linkId": "94963",
+      "text": "Overall summary score",
+      "type": "decimal"
+    }
+  ]
+}
