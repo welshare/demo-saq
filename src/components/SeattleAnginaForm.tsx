@@ -1,6 +1,6 @@
 'use client'
 
-import { ConnectWelshareButton, Schemas, useWelshare } from '@welshare/react';
+import { Schemas, useWelshare, WelshareLogo } from '@welshare/react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import questionnaireData from '../seattle_angina.json';
@@ -33,8 +33,7 @@ export default function SeattleAnginaForm() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   
   const { submitData, isConnected, openWallet } = useWelshare({
-    applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID || 'demo-seattle-angina-form',
-    environment: 'development',
+    applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID!,
     callbacks: {
       onUploaded: (payload) => {
         console.log('Data uploaded successfully:', payload);
@@ -322,9 +321,12 @@ export default function SeattleAnginaForm() {
       {!isConnected && (
         <div className="form-field" style={{ textAlign: 'center' }}>
           <p className="form-label">Connect your Welshare wallet to submit responses:</p>
-          <ConnectWelshareButton openWallet={openWallet} className="form-button">
-            Connect to your Welshare Profile
-          </ConnectWelshareButton>
+          <div className="flex flex-col items-center gap-2">
+            <button onClick={openWallet} className="custom-connect-button">
+              <WelshareLogo />
+              Connect your welshare health wallet! 
+            </button>
+          </div>
         </div>
       )}
       
@@ -381,10 +383,14 @@ export default function SeattleAnginaForm() {
             disabled={!isConnected || isSubmitting}
             style={{ 
               opacity: isConnected && !isSubmitting ? 1 : 0.5,
-              cursor: isSubmitting ? 'not-allowed' : 'pointer'
+              cursor: isSubmitting ? 'not-allowed' : 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '0.5rem'
             }}
           >
-            {isSubmitting ? 'Submitting...' : 'Submit to Welshare Wallet'}
+            <WelshareLogo />
+            {isSubmitting ? 'Submitting...' : "Submit to Welshare Wallet"}
           </button>
           {!isConnected && !isSubmitting && (
             <p style={{ color: '#00ff00', marginTop: '0.5rem' }}>
