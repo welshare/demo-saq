@@ -34,6 +34,7 @@ export default function SeattleAnginaForm() {
   
   const { submitData, isConnected, openWallet } = useWelshare({
     applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID!,
+    apiBaseUrl: "http://localhost:3000",
     callbacks: {
       onUploaded: (payload) => {
         console.log('Data uploaded successfully:', payload);
