@@ -4,6 +4,8 @@ import { Schemas, useWelshare, WelshareLogo } from '@welshare/react';
 import React, { useState } from 'react';
 import { toast } from 'sonner';
 import questionnaireData from '../seattle_angina.json';
+import { usePrivy } from '@privy-io/react-auth';
+import LoginComponent from './LoginComponent';
 
 interface FormAnswer {
   linkId: string;
@@ -32,40 +34,12 @@ export default function SeattleAnginaForm() {
   const [formData, setFormData] = useState<{ [key: string]: string | number }>({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   
-  const { submitData, isConnected, openWallet } = useWelshare({
-    applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID!,
-    apiBaseUrl: "http://localhost:3000",
-    callbacks: {
-      onUploaded: (payload) => {
-        console.log('Data uploaded successfully:', payload);
-        toast.success('Success!', {
-          description: 'Your Seattle Angina Questionnaire response has been successfully submitted to your Welshare wallet!',
-          duration: 5000,
-        });
-        setFormData({});
-        setIsSubmitting(false);
-      },
-      onError: (error) => {
-        console.error('Error uploading data:', error);
-        // Only show error toast if we were actually submitting data
-        if (isSubmitting) {
-          toast.error('Submission Failed', {
-            description: 'There was an error submitting your data. Please try again.',
-            duration: 5000,
-          });
-          setIsSubmitting(false);
-        }
-      },
-      onSessionReady: (storageKey) => {
-        console.log('Session ready:', storageKey);
-      }
-    }
-  });
+  const { ready, authenticated, user, logout } = usePrivy();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!isConnected) {
+    if (!user) {
       toast.warning('Connection Required', {
         description: 'Please connect your Welshare wallet first.',
         duration: 3000,
@@ -319,21 +293,18 @@ export default function SeattleAnginaForm() {
     <div className="form-container">
       <h1 className="form-title">{questionnaireData.title}</h1>
       
-      {!isConnected && (
+      {!user && (
         <div className="form-field" style={{ textAlign: 'center' }}>
-          <p className="form-label">Connect your Welshare wallet to submit responses:</p>
+          <p className="form-label">Connect a wallet to submit responses to your welshare health profile:</p>
           <div className="flex flex-col items-center gap-2">
-            <button onClick={openWallet} className="custom-connect-button">
-              <WelshareLogo />
-              Connect your welshare health wallet! 
-            </button>
+            <LoginComponent />
           </div>
         </div>
       )}
       
-      {isConnected && (
+      {user && (
         <div className="form-field" style={{ textAlign: 'center' }}>
-          <p className="form-label">✅ Wallet Connected! You can now fill out the form:</p>
+          <p className="form-label">✅ Wallet Connected! (<button onClick={() => logout()}>Logout</button>) You can now fill out the form:</p>
         </div>
       )}
       
@@ -381,9 +352,9 @@ export default function SeattleAnginaForm() {
           <button 
             type="submit" 
             className="form-button"
-            disabled={!isConnected || isSubmitting}
+            disabled={!ready || !user || isSubmitting}
             style={{ 
-              opacity: isConnected && !isSubmitting ? 1 : 0.5,
+              opacity: user && !isSubmitting ? 1 : 0.5,
               cursor: isSubmitting ? 'not-allowed' : 'pointer',
               display: 'flex',
               alignItems: 'center',
@@ -393,7 +364,7 @@ export default function SeattleAnginaForm() {
             <WelshareLogo />
             {isSubmitting ? 'Submitting...' : "Submit to Welshare Wallet"}
           </button>
-          {!isConnected && !isSubmitting && (
+          {!user && !isSubmitting && (
             <p style={{ color: '#00ff00', marginTop: '0.5rem' }}>
               Connect your wallet to enable submission
             </p>
