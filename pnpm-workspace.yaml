@@ -5,3 +5,6 @@ onlyBuiltDependencies:
   - sharp
   - unrs-resolver
   - utf-8-validate
+
+overrides:
+  '@welshare/sdk': link:../../../../Library/pnpm/global/5/node_modules/@welshare/sdk

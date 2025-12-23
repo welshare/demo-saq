@@ -1,9 +1,9 @@
 "use client";
 
 import { PrivyClientConfig, PrivyProvider } from "@privy-io/react-auth";
-import LoginComponent from "./LoginComponent";
 
 export const privyConfig: PrivyClientConfig = {
+  
   embeddedWallets: {
     ethereum: {
       createOnLogin: "users-without-wallets",
