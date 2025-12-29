@@ -3,14 +3,14 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "next dev --webpack",
     "build": "next build --webpack",
     "start": "next start",
     "lint": "eslint"
   },
   "dependencies": {
     "@privy-io/react-auth": "^3.9.1",
-    "@welshare/sdk": "link:../../../../Library/pnpm/global/5/node_modules/@welshare/sdk",
+    "@welshare/sdk": "file:../../surveys-monorepo/packages/welshare",
     "next": "16.1.1",
     "react": "19.2.3",
     "react-dom": "19.2.3",
