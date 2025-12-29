@@ -3,7 +3,7 @@
 import { PrivyClientConfig, PrivyProvider } from "@privy-io/react-auth";
 
 export const privyConfig: PrivyClientConfig = {
-  
+  loginMethods: ["email", "google"],
   embeddedWallets: {
     ethereum: {
       createOnLogin: "users-without-wallets",

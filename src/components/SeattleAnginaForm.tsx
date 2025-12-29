@@ -1,15 +1,19 @@
 "use client";
 
+import { useStorageKey } from "@/hooks/use-storage-key";
+import { usePrivy } from "@privy-io/react-auth";
 import React, { useState } from "react";
 import { toast } from "sonner";
 import questionnaireData from "../seattle_angina.json";
+import LoginWithStorageKeyComponent from "./LoginWithStorageKeyComponent";
+
 import {
-  SignTypedDataParams,
-  usePrivy,
-  useSignTypedData,
-} from "@privy-io/react-auth";
-import LoginComponent from "./LoginComponent";
-import { deriveStorageKeypair, SessionKeyData } from "@welshare/sdk";
+  InterpolateSocials,
+  QuestionnaireResponseSchema,
+  WELSHARE_API_ENVIRONMENT,
+  WelshareApi,
+  type WelshareApiEnvironment,
+} from "@welshare/sdk";
 
 interface FormAnswer {
   linkId: string;
@@ -39,27 +43,9 @@ export default function SeattleAnginaForm() {
     {}
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const { signTypedData } = useSignTypedData();
+  const { storageKey, makeStorageKey } = useStorageKey();
 
   const { ready, authenticated, user, logout } = usePrivy();
-  const [storageKey, setStorageKey] = useState<SessionKeyData>();
-
-  const makeStorageKey = async () => {
-    if (!user?.wallet?.address) {
-      toast.error("No wallet address found");
-      return;
-    }
-    const storageKeyData = await deriveStorageKeypair(
-      async (params: Record<string, unknown>) => {
-        const { signature } = await signTypedData(
-          params as SignTypedDataParams
-        );
-        return signature as `0x${string}`;
-      },
-      user.wallet.address as `0x${string}`
-    );
-    setStorageKey(storageKeyData);
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -89,7 +75,8 @@ export default function SeattleAnginaForm() {
 
         if (questionItem?.type === "choice" && typeof value === "string") {
           const option = questionItem.answerOption?.find(
-            (opt: { valueCoding?: { code: string } }) => opt.valueCoding?.code === value
+            (opt: { valueCoding?: { code: string } }) =>
+              opt.valueCoding?.code === value
           );
 
           return {
@@ -162,14 +149,38 @@ export default function SeattleAnginaForm() {
     };
 
     console.log(
-      "Submitting QuestionnaireResponse:",
+      "User Wallet Storage Key:",
+      storageKey?.sessionKeyPair.toDidString(),
+      "submits QuestionnaireResponse:",
       JSON.stringify(response, null, 2)
     );
 
+    const submissionPayload = {
+      applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID || "",
+      timestamp: new Date().toISOString(),
+      schemaId: QuestionnaireResponseSchema.schemaUid,
+      submission: response,
+    };
+
+    const welshareApiEnvironment: WelshareApiEnvironment =
+      WELSHARE_API_ENVIRONMENT[
+        (process.env.NEXT_PUBLIC_WELSHARE_ENVIRONMENT ||
+          "production") as keyof typeof WELSHARE_API_ENVIRONMENT
+      ];
+
     try {
-      // -------------------------------
-      //await submitData(Schemas.QuestionnaireResponse, response);
-      // -------------------------------
+      const response = await WelshareApi.submitData(
+        storageKey,
+        submissionPayload,
+        welshareApiEnvironment
+      );
+
+      console.log("Submission Response:", response);
+      toast.success("Data submitted successfully", {
+        description:
+          "Your data has been successfully submitted to your Welshare profile.",
+        duration: 5000,
+      });
     } catch (error) {
       console.error("Failed to submit data:", error);
       toast.error("Submission Failed", {
@@ -177,6 +188,7 @@ export default function SeattleAnginaForm() {
           "There was an error submitting your data. Please try again.",
         duration: 5000,
       });
+    } finally {
       setIsSubmitting(false);
     }
   };
@@ -369,29 +381,13 @@ export default function SeattleAnginaForm() {
     <div className="form-container">
       <h1 className="form-title">{questionnaireData.title}</h1>
 
-      {!user && (
-        <div className="form-field" style={{ textAlign: "center" }}>
-          <p className="form-label">
-            Connect a wallet to submit responses to your welshare health
-            profile:
-          </p>
-          <div className="flex flex-col items-center gap-2">
-            <LoginComponent />
-          </div>
-        </div>
-      )}
-
-      {user && (
-        <div className="form-field" style={{ textAlign: "center" }}>
-          <p className="form-label">
-            ✅ Wallet Connected! (
-            <button onClick={() => logout()}>Logout</button>) You can now fill
-            out the form:
-          </p>
-        </div>
-      )}
-
-      <form onSubmit={handleSubmit}>
+      <div style={{ marginBottom: "2rem" }}>
+        <LoginWithStorageKeyComponent
+          storageKey={storageKey}
+          makeStorageKey={makeStorageKey}
+        />
+      </div>
+      <form onSubmit={handleSubmit} style={{ marginTop: "2rem" }}>
         {questionnaireData.item
           .filter((item) => item.type !== "decimal")
           .map((item) => renderQuestion(item))}
@@ -461,30 +457,20 @@ export default function SeattleAnginaForm() {
           <button
             type="submit"
             className="form-button"
-            disabled={!ready || !user || !storageKey || isSubmitting}
+            disabled={!storageKey}
             style={{
-              opacity: user && storageKey && !isSubmitting ? 1 : 0.5,
+              opacity: storageKey ? 1 : 0.5,
               cursor: isSubmitting ? "not-allowed" : "pointer",
               display: "flex",
               alignItems: "center",
               gap: "0.5rem",
             }}
           >
-            {isSubmitting ? "Submitting..." : "Submit to Welshare Wallet"}
+            {isSubmitting ? "Submitting..." : "Submit to Welshare Profile"}
           </button>
           {!user && !isSubmitting && (
             <p style={{ color: "#00ff00", marginTop: "0.5rem" }}>
               Connect your wallet to enable submission
-            </p>
-          )}
-          {!storageKey && (
-            <button className="form-button" onClick={makeStorageKey}>
-              Derive Storage Key
-            </button>
-          )}
-          {storageKey && (
-            <p style={{ color: "#00ff00", marginTop: "0.5rem" }}>
-              Storage Key: {storageKey.sessionKeyPair.toDidString()}
             </p>
           )}
           {isSubmitting && (
