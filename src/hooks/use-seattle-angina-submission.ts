@@ -64,7 +64,7 @@ export const useSeattleAnginaSubmission = (
 
     try {
       const apiResponse = await WelshareApi.submitData(
-        storageKey,
+        storageKey.sessionKeyPair,
         submissionPayload,
         "development"
       );
