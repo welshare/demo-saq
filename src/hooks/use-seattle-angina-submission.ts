@@ -1,16 +1,16 @@
-import { useState } from "react";
+import { buildQuestionnaireResponse } from "@/utils/build-questionnaire-response";
 import { usePrivy } from "@privy-io/react-auth";
-import { toast } from "sonner";
-import { SessionKeyData } from "@welshare/sdk";
 import {
   QuestionnaireResponseSchema,
-  WELSHARE_API_ENVIRONMENT,
+  resolveEnvironment,
+  SessionKeyData,
   WelshareApi,
-  type WelshareApiEnvironment,
+  WelshareApiEnvironment,
 } from "@welshare/sdk";
+import { useState } from "react";
+import { toast } from "sonner";
 import { FormData } from "./use-seattle-angina-form";
 import { SeattleAnginaScores } from "./use-seattle-angina-scores";
-import { buildQuestionnaireResponse } from "@/utils/build-questionnaire-response";
 
 export const useSeattleAnginaSubmission = (
   formData: FormData,
@@ -63,10 +63,13 @@ export const useSeattleAnginaSubmission = (
     };
 
     try {
+      const environment = resolveEnvironment(
+        process.env.NEXT_PUBLIC_WELSHARE_ENVIRONMENT || "staging"
+      );
       const apiResponse = await WelshareApi.submitData(
         storageKey.sessionKeyPair,
         submissionPayload,
-        "development"
+        environment
       );
 
       console.log("Submission Response:", apiResponse);
@@ -92,4 +95,3 @@ export const useSeattleAnginaSubmission = (
     submitForm,
   };
 };
-

@@ -1,9 +1,7 @@
 "use client";
 
-import { useStorageKey } from "@/hooks/use-storage-key";
 import { useLogin, useLogout, usePrivy } from "@privy-io/react-auth";
-import { deriveStorageKeypair, SessionKeyData } from "@welshare/sdk";
-import { useState } from "react";
+import { SessionKeyData } from "@welshare/sdk";
 
 function LoginButton() {
   const { ready, authenticated } = usePrivy();
