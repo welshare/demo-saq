@@ -5,7 +5,7 @@ import {
   resolveEnvironment,
   SessionKeyData,
   WelshareApi,
-  WelshareApiEnvironment,
+  WELSHARE_API_ENVIRONMENT,
 } from "@welshare/sdk";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -64,7 +64,9 @@ export const useSeattleAnginaSubmission = (
 
     try {
       const environment = resolveEnvironment(
-        process.env.NEXT_PUBLIC_WELSHARE_ENVIRONMENT || "staging"
+        (process.env
+          .NEXT_PUBLIC_WELSHARE_ENVIRONMENT as keyof typeof WELSHARE_API_ENVIRONMENT) ||
+          "staging"
       );
       const apiResponse = await WelshareApi.submitData(
         storageKey.sessionKeyPair,
