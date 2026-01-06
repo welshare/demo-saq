@@ -22,20 +22,6 @@ const nextConfig: NextConfig = {
       },
     },
   },
-  
-  // Fallback webpack config for when not using Turbopack
-  // webpack: (config) => {
-  //   config.resolve.fallback = {
-  //     ...config.resolve.fallback,
-  //     fs: false,
-  //     net: false,
-  //     tls: false,
-  //     worker_threads: false,
-  //     pino: require.resolve('./src/utils/empty-module.ts'),
-  //     'pino-pretty': require.resolve('./src/utils/empty-module.ts'),
-  //   };
-  //   return config;
-  // },
 };
 
 export default nextConfig;
