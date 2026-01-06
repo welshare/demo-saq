@@ -2,16 +2,25 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
   typescript: {
-    // !! WARN !!
-    // Dangerously allow production builds to successfully complete even if
-    // your project has TypeScript errors.
-    // !! WARN !!
-    ignoreBuildErrors: true,
+    ignoreBuildErrors: false,
   },
-  eslint: {
-    // Warning: This allows production builds to successfully complete even if
-    // your project has ESLint errors.
-    ignoreDuringBuilds: true,
+  serverExternalPackages: [
+    '@nillion/secretvaults', 
+    '@nillion/nuc',
+  ],
+  
+  turbopack: {
+    // This is equivalent to webpack's resolve.fallback
+    resolveAlias: {
+      // Alias Node.js built-in modules to empty module for browser builds only
+      // Server-side code can still use these modules normally
+      fs: {
+        browser: './src/utils/empty-module.ts',
+      },
+      worker_threads: {
+        browser: './src/utils/empty-module.ts',
+      },
+    },
   },
 };
 

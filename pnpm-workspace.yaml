@@ -1,3 +1,10 @@
 onlyBuiltDependencies:
+  - '@reown/appkit'
+  - bufferutil
+  - keccak
   - sharp
   - unrs-resolver
+  - utf-8-validate
+
+overrides:
+  libsodium-wrappers-sumo: 0.8.0
