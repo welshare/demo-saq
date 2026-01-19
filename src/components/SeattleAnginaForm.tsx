@@ -7,6 +7,7 @@ import questionnaireData from "../seattle_angina.json";
 import LoginWithStorageKeyComponent from "./LoginWithStorageKeyComponent";
 import QuestionnaireRenderer from "./QuestionnaireRenderer";
 import ScoreDisplay from "./ScoreDisplay";
+import ExternalWalletSubmission from "./ExternalWalletSubmission";
 import { useSeattleAnginaForm } from "@/hooks/use-seattle-angina-form";
 import { useSeattleAnginaScores } from "@/hooks/use-seattle-angina-scores";
 import { useSeattleAnginaSubmission } from "@/hooks/use-seattle-angina-submission";
@@ -14,7 +15,7 @@ import { useSeattleAnginaSubmission } from "@/hooks/use-seattle-angina-submissio
 export default function SeattleAnginaForm() {
   const { storageKey, makeStorageKey } = useStorageKey();
   const { user } = usePrivy();
-  const { formData, handleInputChange } = useSeattleAnginaForm();
+  const { formData, handleInputChange, isFormComplete } = useSeattleAnginaForm();
   const scores = useSeattleAnginaScores(formData);
   const { isSubmitting, submitForm } = useSeattleAnginaSubmission(
     formData,
@@ -43,27 +44,68 @@ export default function SeattleAnginaForm() {
 
         <ScoreDisplay scores={scores} />
 
-        <div className="form-field">
-          <LoginWithStorageKeyComponent
-            storageKey={storageKey}
-            makeStorageKey={makeStorageKey}
-          />
-        </div>
+        <div className="submission-options">
+          <h2 className="submission-options-title">Submission Options</h2>
+          <p className="submission-options-description">
+            Choose how you want to submit your questionnaire response to your
+            Welshare profile.
+          </p>
 
-        {user && (
-          <div className="form-field">
-            <button
-              type="submit"
-              className="form-button"
-              disabled={!storageKey || isSubmitting}
-            >
-              {isSubmitting ? "Submitting..." : "Submit to Welshare Profile"}
-            </button>
-            {isSubmitting && (
-              <p className="submit-status">Submitting your response...</p>
+          <div className="submission-option">
+            <h3 className="submission-option-title">
+              Option A: External Wallet
+            </h3>
+            <p className="submission-option-description">
+              Connect to your existing Welshare wallet via the external wallet
+              interface.
+            </p>
+            <ExternalWalletSubmission
+              formData={formData}
+              scores={scores}
+              isFormComplete={isFormComplete}
+            />
+          </div>
+
+          <div className="submission-divider">
+            <span>or</span>
+          </div>
+
+          <div className="submission-option">
+            <h3 className="submission-option-title">
+              Option B: Direct Submission (via app controlled wallet)
+            </h3>
+            <p className="submission-option-description">
+              Log in with your email or Google account to create an embedded
+              wallet and submit directly.
+            </p>
+            <div className="form-field">
+              <LoginWithStorageKeyComponent
+                storageKey={storageKey}
+                makeStorageKey={makeStorageKey}
+              />
+            </div>
+
+            {user && (
+              <div className="form-field">
+                <button
+                  type="submit"
+                  className="form-button"
+                  disabled={!storageKey || isSubmitting || !isFormComplete}
+                >
+                  {isSubmitting ? "Submitting..." : "Submit to Welshare Profile"}
+                </button>
+                {!isFormComplete && (
+                  <p className="form-incomplete-hint">
+                    Please answer all questions to enable submission.
+                  </p>
+                )}
+                {isSubmitting && (
+                  <p className="submit-status">Submitting your response...</p>
+                )}
+              </div>
             )}
           </div>
-        )}
+        </div>
       </form>
     </div>
   );

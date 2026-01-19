@@ -14,6 +14,9 @@ importers:
       '@privy-io/react-auth':
         specifier: ^3.9.1
         version: 3.10.1(@solana-program/system@0.8.1(@solana/kit@5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))))(@solana-program/token@0.9.0(@solana/kit@5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))))(@solana/kit@5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10)))(@solana/sysvars@5.1.0(fastestsmallesttextencoderdecoder@1.0.22)(typescript@5.9.3))(@tanstack/query-core@5.90.16)(@tanstack/react-query@5.90.16(react@19.2.3))(@types/react@19.2.7)(bufferutil@4.1.0)(fastestsmallesttextencoderdecoder@1.0.22)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(typescript@5.9.3)(use-sync-external-store@1.4.0(react@19.2.3))(utf-8-validate@5.0.10)(ws@8.19.0(bufferutil@4.1.0)(utf-8-validate@5.0.10))(zod@3.25.76)
+      '@welshare/react':
+        specifier: ^0.3.0
+        version: 0.3.0(@nillion/blindfold@0.1.0)(bufferutil@4.1.0)(pino-pretty@10.3.1)(pino@10.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@5.0.10)
       '@welshare/sdk':
         specifier: ^0.1.4
         version: 0.1.4(@nillion/blindfold@0.1.0)(bufferutil@4.1.0)(pino-pretty@10.3.1)(pino@10.0.0)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@5.0.10)
@@ -1970,6 +1973,13 @@ packages:
 
   '@walletconnect/window-metadata@1.0.1':
     resolution: {integrity: sha512-9koTqyGrM2cqFRW517BPY/iEtUDx2r1+Pwwu5m7sJ7ka79wi3EyqhqcICk/yDmv6jAS1rjKgTKXlEhanYjijcA==}
+
+  '@welshare/react@0.3.0':
+    resolution: {integrity: sha512-Vx/NoBqeh2tMOXcvDESNaCDMbFyBu40p+Cglal2SjQlvObjg5YsiuEcjIXnijSV38RFZXpHNCiwIEH7JzjP6Ew==}
+    engines: {node: ^22.0.0}
+    peerDependencies:
+      react: ^19
+      react-dom: ^19
 
   '@welshare/sdk@0.1.4':
     resolution: {integrity: sha512-8kmfgGz+tPwm4BoTguFak6B1d0dWHyUzqnx7WP99yCTxMj5fpWP0S3dhK/OjfvA4XRFVeCmjxi8FYdtSvMFvlA==}
@@ -8519,6 +8529,21 @@ snapshots:
     dependencies:
       '@walletconnect/window-getters': 1.0.1
       tslib: 1.14.1
+
+  '@welshare/react@0.3.0(@nillion/blindfold@0.1.0)(bufferutil@4.1.0)(pino-pretty@10.3.1)(pino@10.0.0)(react-dom@19.2.3(react@19.2.3))(react@19.2.3)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@5.0.10)':
+    dependencies:
+      '@welshare/sdk': 0.1.4(@nillion/blindfold@0.1.0)(bufferutil@4.1.0)(pino-pretty@10.3.1)(pino@10.0.0)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@5.0.10)
+      react: 19.2.3
+      react-dom: 19.2.3(react@19.2.3)
+    transitivePeerDependencies:
+      - '@nillion/blindfold'
+      - bufferutil
+      - pino
+      - pino-pretty
+      - starknet
+      - supports-color
+      - typescript
+      - utf-8-validate
 
   '@welshare/sdk@0.1.4(@nillion/blindfold@0.1.0)(bufferutil@4.1.0)(pino-pretty@10.3.1)(pino@10.0.0)(starknet@8.9.2)(typescript@5.9.3)(utf-8-validate@5.0.10)':
     dependencies:
