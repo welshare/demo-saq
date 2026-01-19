@@ -1,6 +1,5 @@
 "use client";
 
-import React from "react";
 import { FormData } from "@/hooks/use-seattle-angina-form";
 
 interface QuestionnaireRendererProps {

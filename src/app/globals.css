@@ -97,9 +97,20 @@ body {
 .form-title {
   color: var(--color-violet-800);
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   font-size: 1.75rem;
   font-weight: 700;
+}
+
+.form-description {
+  background-color: var(--color-violet-50);
+  border-left: 4px solid var(--color-violet-500);
+  padding: 1rem 1.25rem;
+  margin-bottom: 2rem;
+  border-radius: 4px;
+  color: var(--color-text);
+  line-height: 1.6;
+  font-size: 0.9rem;
 }
 
 .custom-connect-button {
@@ -250,4 +261,11 @@ body {
   font-size: 0.85rem;
   color: var(--color-text-muted);
   margin-top: 0.75rem;
+}
+
+/* Submit status */
+.submit-status {
+  text-align: center;
+  margin-top: 0.75rem;
+  color: var(--color-text-muted);
 }
