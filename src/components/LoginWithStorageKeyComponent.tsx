@@ -6,7 +6,6 @@ import { SessionKeyData } from "@welshare/sdk";
 function LoginButton() {
   const { ready, authenticated } = usePrivy();
   const { login } = useLogin();
-  // Disable login when Privy is not ready or the user is already authenticated
   const disableLogin = !ready || (ready && authenticated);
 
   return (
@@ -23,26 +22,42 @@ export default function LoginWithStorageKeyComponent({
   storageKey: SessionKeyData | undefined;
   makeStorageKey: () => Promise<void> | undefined;
 }) {
-  const { ready, authenticated, user } = usePrivy();
-  
+  const { ready, user } = usePrivy();
   const { logout } = useLogout();
-  if (!ready) return <div>Loading Privy...</div>;
+
+  if (!ready) return <div className="wallet-panel">Loading...</div>;
   if (!user) return <LoginButton />;
 
-  if (!storageKey)
-    return (
-      <div>
-        <p>Wallet: {user.wallet?.address} (<button onClick={() => logout()}>Logout</button>)</p>
-        <button className="form-button" onClick={() => makeStorageKey()}>
-          Derive Storage Key
+  return (
+    <div className="wallet-panel">
+      <div className="wallet-panel-header">
+        <span className="wallet-panel-title">Connected Wallet</span>
+        <button className="logout-button" onClick={() => logout()}>
+          Logout
         </button>
       </div>
-    );
 
-  return (
-    <div>
-      <p>Wallet: {user.wallet?.address} (<button  onClick={() => logout()}>Logout</button>)</p>
-      <p>Storage Key: {storageKey.sessionKeyPair.toDidString()}</p>
+      <div className="wallet-panel-content">
+        <div className="wallet-info-row">
+          <span className="wallet-info-label">Address</span>
+          <code className="wallet-info-value">{user.wallet?.address}</code>
+        </div>
+
+        {storageKey ? (
+          <div className="wallet-info-row">
+            <span className="wallet-info-label">Storage Key</span>
+            <code className="wallet-info-value wallet-info-value-small">
+              {storageKey.sessionKeyPair.toDidString()}
+            </code>
+          </div>
+        ) : (
+          <div className="wallet-panel-action">
+            <button className="form-button" onClick={() => makeStorageKey()}>
+              Derive Storage Key
+            </button>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

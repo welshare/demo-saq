@@ -62,12 +62,12 @@ export default function SeattleAnginaForm() {
             {isSubmitting ? "Submitting..." : "Submit to Welshare Profile"}
           </button>
           {!user && !isSubmitting && (
-            <p style={{ color: "#00ff00", marginTop: "0.5rem" }}>
+            <p style={{ marginTop: "0.5rem" }}>
               Connect your wallet to enable submission
             </p>
           )}
           {isSubmitting && (
-            <p style={{ color: "#00ff00", marginTop: "0.5rem" }}>
+            <p style={{ marginTop: "0.5rem" }}>
               Submitting your response...
             </p>
           )}

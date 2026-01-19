@@ -1,16 +1,35 @@
 @import "tailwindcss";
 
+:root {
+  --color-violet-50: #faf8fc;
+  --color-violet-100: #f3eff8;
+  --color-violet-200: #e9e1f2;
+  --color-violet-300: #d4c4e6;
+  --color-violet-400: #b69dd4;
+  --color-violet-500: #9370bd;
+  --color-violet-600: #7c5aa8;
+  --color-violet-700: #663399;
+  --color-violet-800: #553080;
+  --color-violet-900: #472a69;
+  --color-text: #1f1f2e;
+  --color-text-muted: #6b6b80;
+  --color-border: #e0dae8;
+  --color-border-focus: #b69dd4;
+}
+
 body {
-  background-color: #663399;
-  color: #00ff00;
-  font-family: Arial, sans-serif;
+  background-color: var(--color-violet-50);
+  color: var(--color-text);
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .form-container {
   max-width: 800px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #663399;
+  background-color: #ffffff;
+  border-radius: 8px;
+  box-shadow: 0 1px 3px rgba(102, 51, 153, 0.08);
 }
 
 .form-field {
@@ -20,74 +39,215 @@ body {
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  color: #00ff00;
-  font-weight: bold;
+  color: var(--color-violet-800);
+  font-weight: 600;
+  font-size: 0.9rem;
 }
 
 .form-input,
 .form-select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #ffff00;
-  color: #000000;
-  border: 2px solid #00ff00;
-  border-radius: 15px;
+  background-color: #ffffff;
+  color: var(--color-text);
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
   font-size: 1rem;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-input:hover,
+.form-select:hover {
+  border-color: var(--color-violet-300);
 }
 
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: #00ff00;
-  box-shadow: 0 0 0 3px rgba(0, 255, 0, 0.3);
+  border-color: var(--color-violet-500);
+  box-shadow: 0 0 0 3px rgba(102, 51, 153, 0.1);
 }
 
 .form-button {
-  background-color: #ffff00;
-  color: #000000;
-  padding: 1rem 2rem;
-  border: 2px solid #00ff00;
-  border-radius: 15px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  background-color: var(--color-violet-700);
+  color: #ffffff;
+  padding: 0.75rem 2.5rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
   cursor: pointer;
-  margin-right: 1rem;
+  transition: background-color 0.2s ease, box-shadow 0.2s ease;
+  min-width: 200px;
+  display: block;
+  margin: 0 auto;
 }
 
 .form-button:hover {
-  background-color: #cccc00;
+  background-color: var(--color-violet-800);
+  box-shadow: 0 2px 8px rgba(102, 51, 153, 0.2);
+}
+
+.form-button:disabled {
+  background-color: var(--color-violet-200);
+  color: var(--color-text-muted);
+  cursor: not-allowed;
 }
 
 .form-title {
-  color: #00ff00;
+  color: var(--color-violet-800);
   text-align: center;
   margin-bottom: 2rem;
-  font-size: 2rem;
-  font-weight: bold;
+  font-size: 1.75rem;
+  font-weight: 700;
 }
 
 .custom-connect-button {
-  background-color: #ffff00;
-  color: #000000;
-  padding: 0.7rem 2rem;
-  border: 2px solid #00ff00;
-  border-radius: 15px;
-  font-size: 1.1rem;
-  font-weight: bold;
+  background-color: #ffffff;
+  color: var(--color-violet-700);
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--color-violet-300);
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
   display: flex;
   flex-direction: row;
   align-items: center;
   cursor: pointer;
-  gap: 1rem;
-  transition: all 0.3s ease-in-out;
+  gap: 0.75rem;
+  transition: all 0.2s ease;
 
   &:hover {
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-    background-color: #0198ff;
-    background: linear-gradient(135deg, #0198ff 0%, #16ffef 100%);
-    color: #ffffff;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
+    background-color: var(--color-violet-50);
+    border-color: var(--color-violet-500);
+    box-shadow: 0 2px 8px rgba(102, 51, 153, 0.12);
   }
+}
+
+/* Inline button for logout */
+.form-container button:not(.form-button):not(.custom-connect-button) {
+  color: var(--color-violet-600);
+  background: none;
+  border: none;
+  cursor: pointer;
+  text-decoration: underline;
+  font-size: inherit;
+}
+
+.form-container button:not(.form-button):not(.custom-connect-button):hover {
+  color: var(--color-violet-800);
+}
+
+/* Info text styling */
+.form-container p {
+  color: var(--color-text-muted);
+  line-height: 1.5;
+}
+
+/* Wallet Panel */
+.wallet-panel {
+  background-color: var(--color-violet-50);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+}
+
+.wallet-panel-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+.wallet-panel-title {
+  font-weight: 600;
+  color: var(--color-violet-800);
+  font-size: 0.9rem;
+}
+
+.logout-button {
+  background-color: transparent;
+  color: var(--color-text-muted);
+  padding: 0.35rem 0.75rem;
+  border: 1px solid var(--color-border);
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.logout-button:hover {
+  background-color: #ffffff;
+  border-color: var(--color-violet-300);
+  color: var(--color-violet-700);
+}
+
+.wallet-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.wallet-info-row {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.wallet-info-label {
+  font-size: 0.75rem;
+  color: var(--color-text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.wallet-info-value {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-size: 0.85rem;
+  color: var(--color-text);
+  background-color: #ffffff;
+  padding: 0.5rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid var(--color-border);
+  word-break: break-all;
+}
+
+.wallet-info-value-small {
+  font-size: 0.75rem;
+}
+
+.wallet-panel-action {
+  margin-top: 0.75rem;
+}
+
+/* Score Panel */
+.score-panel {
+  background-color: var(--color-violet-50);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+}
+
+.score-panel-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--color-violet-800);
+  margin-bottom: 1rem;
+}
+
+.score-row {
+  margin-bottom: 0.5rem;
+  color: var(--color-text);
+}
+
+.score-row-highlight {
+  font-weight: 600;
+}
+
+.score-panel-hint {
+  font-size: 0.85rem;
+  color: var(--color-text-muted);
+  margin-top: 0.75rem;
 }
