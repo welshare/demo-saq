@@ -1,5 +1,12 @@
 "use client";
 
+/**
+ * FHIR Questionnaire Renderer
+ * 
+ * Renders form fields from a FHIR Questionnaire JSON structure.
+ * Handles: choice (select), group (nested), and decimal (number input) types.
+ */
+
 import { FormData } from "@/hooks/use-seattle-angina-form";
 
 interface QuestionnaireRendererProps {

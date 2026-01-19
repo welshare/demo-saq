@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@privy-io/react-auth": "^3.9.1",
+    "@welshare/react": "^0.3.0",
     "@welshare/sdk": "^0.1.4",
     "next": "16.1.1",
     "react": "19.2.3",

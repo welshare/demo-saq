@@ -1,26 +1,16 @@
 @import "tailwindcss";
 
 :root {
-  --color-violet-50: #faf8fc;
-  --color-violet-100: #f3eff8;
-  --color-violet-200: #e9e1f2;
-  --color-violet-300: #d4c4e6;
-  --color-violet-400: #b69dd4;
-  --color-violet-500: #9370bd;
-  --color-violet-600: #7c5aa8;
-  --color-violet-700: #663399;
-  --color-violet-800: #553080;
-  --color-violet-900: #472a69;
+  --color-primary: #663399;
+  --color-primary-light: #f3eff8;
   --color-text: #1f1f2e;
   --color-text-muted: #6b6b80;
   --color-border: #e0dae8;
-  --color-border-focus: #b69dd4;
 }
 
 body {
-  background-color: var(--color-violet-50);
+  background-color: #faf8fc;
   color: var(--color-text);
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 }
 
 .form-container {
@@ -29,7 +19,6 @@ body {
   padding: 2rem;
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 1px 3px rgba(102, 51, 153, 0.08);
 }
 
 .form-field {
@@ -39,7 +28,7 @@ body {
 .form-label {
   display: block;
   margin-bottom: 0.5rem;
-  color: var(--color-violet-800);
+  color: var(--color-primary);
   font-weight: 600;
   font-size: 0.9rem;
 }
@@ -48,119 +37,54 @@ body {
 .form-select {
   width: 100%;
   padding: 0.75rem;
-  background-color: #ffffff;
-  color: var(--color-text);
   border: 1px solid var(--color-border);
   border-radius: 6px;
   font-size: 1rem;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
-}
-
-.form-input:hover,
-.form-select:hover {
-  border-color: var(--color-violet-300);
 }
 
 .form-input:focus,
 .form-select:focus {
   outline: none;
-  border-color: var(--color-violet-500);
-  box-shadow: 0 0 0 3px rgba(102, 51, 153, 0.1);
+  border-color: var(--color-primary);
 }
 
 .form-button {
-  background-color: var(--color-violet-700);
+  background-color: var(--color-primary);
   color: #ffffff;
-  padding: 0.75rem 2.5rem;
+  padding: 0.75rem 2rem;
   border: none;
   border-radius: 6px;
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
-  transition: background-color 0.2s ease, box-shadow 0.2s ease;
-  min-width: 200px;
-  display: block;
-  margin: 0 auto;
-}
-
-.form-button:hover {
-  background-color: var(--color-violet-800);
-  box-shadow: 0 2px 8px rgba(102, 51, 153, 0.2);
 }
 
 .form-button:disabled {
-  background-color: var(--color-violet-200);
-  color: var(--color-text-muted);
+  opacity: 0.5;
   cursor: not-allowed;
 }
 
 .form-title {
-  color: var(--color-violet-800);
+  color: var(--color-primary);
   text-align: center;
   margin-bottom: 1rem;
-  font-size: 1.75rem;
-  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .form-description {
-  background-color: var(--color-violet-50);
-  border-left: 4px solid var(--color-violet-500);
-  padding: 1rem 1.25rem;
+  color: var(--color-text-muted);
+  text-align: center;
   margin-bottom: 2rem;
-  border-radius: 4px;
-  color: var(--color-text);
-  line-height: 1.6;
   font-size: 0.9rem;
 }
 
-.custom-connect-button {
-  background-color: #ffffff;
-  color: var(--color-violet-700);
-  padding: 0.7rem 1.5rem;
-  border: 1px solid var(--color-violet-300);
-  border-radius: 6px;
-  font-size: 1rem;
-  font-weight: 600;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  gap: 0.75rem;
-  transition: all 0.2s ease;
-
-  &:hover {
-    background-color: var(--color-violet-50);
-    border-color: var(--color-violet-500);
-    box-shadow: 0 2px 8px rgba(102, 51, 153, 0.12);
-  }
-}
-
-/* Inline button for logout */
-.form-container button:not(.form-button):not(.custom-connect-button) {
-  color: var(--color-violet-600);
-  background: none;
-  border: none;
-  cursor: pointer;
-  text-decoration: underline;
-  font-size: inherit;
-}
-
-.form-container button:not(.form-button):not(.custom-connect-button):hover {
-  color: var(--color-violet-800);
-}
-
-/* Info text styling */
-.form-container p {
-  color: var(--color-text-muted);
-  line-height: 1.5;
-}
-
-/* Wallet Panel */
+/* Wallet connection panels */
 .wallet-panel {
-  background-color: var(--color-violet-50);
+  background-color: var(--color-primary-light);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 1rem 1.25rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
 .wallet-panel-header {
@@ -172,100 +96,105 @@ body {
 
 .wallet-panel-title {
   font-weight: 600;
-  color: var(--color-violet-800);
-  font-size: 0.9rem;
+  color: var(--color-primary);
 }
 
 .logout-button {
-  background-color: transparent;
-  color: var(--color-text-muted);
-  padding: 0.35rem 0.75rem;
+  background: none;
   border: 1px solid var(--color-border);
   border-radius: 4px;
+  padding: 0.35rem 0.75rem;
   font-size: 0.8rem;
-  font-weight: 500;
   cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.logout-button:hover {
-  background-color: #ffffff;
-  border-color: var(--color-violet-300);
-  color: var(--color-violet-700);
-}
-
-.wallet-panel-content {
-  display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
 }
 
 .wallet-info-row {
-  display: flex;
-  flex-direction: column;
-  gap: 0.25rem;
+  margin-bottom: 0.5rem;
 }
 
 .wallet-info-label {
   font-size: 0.75rem;
   color: var(--color-text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.025em;
 }
 
 .wallet-info-value {
-  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Monaco, Consolas, monospace;
+  font-family: monospace;
   font-size: 0.85rem;
-  color: var(--color-text);
   background-color: #ffffff;
-  padding: 0.5rem 0.75rem;
+  padding: 0.5rem;
   border-radius: 4px;
   border: 1px solid var(--color-border);
   word-break: break-all;
 }
 
-.wallet-info-value-small {
-  font-size: 0.75rem;
-}
-
-.wallet-panel-action {
-  margin-top: 0.75rem;
-}
-
-/* Score Panel */
+/* Score display */
 .score-panel {
-  background-color: var(--color-violet-50);
+  background-color: var(--color-primary-light);
   border: 1px solid var(--color-border);
   border-radius: 8px;
-  padding: 1rem 1.25rem;
+  padding: 1rem;
   margin-bottom: 1.5rem;
 }
 
 .score-panel-title {
+  font-weight: 600;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+/* Submission options */
+.submission-options {
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-border);
+}
+
+.submission-options-title {
+  color: var(--color-primary);
   font-size: 1.1rem;
   font-weight: 600;
-  color: var(--color-violet-800);
   margin-bottom: 1rem;
 }
 
-.score-row {
-  margin-bottom: 0.5rem;
-  color: var(--color-text);
+.submission-option {
+  background-color: var(--color-primary-light);
+  border: 1px solid var(--color-border);
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
 }
 
-.score-row-highlight {
+.submission-option-title {
+  color: var(--color-primary);
   font-weight: 600;
+  margin-bottom: 0.5rem;
 }
 
-.score-panel-hint {
-  font-size: 0.85rem;
-  color: var(--color-text-muted);
-  margin-top: 0.75rem;
-}
-
-/* Submit status */
-.submit-status {
+.submission-divider {
   text-align: center;
-  margin-top: 0.75rem;
   color: var(--color-text-muted);
+  margin: 1rem 0;
+}
+
+/* Connect button */
+.custom-connect-button {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  padding: 0.7rem 1.5rem;
+  border: 1px solid var(--color-border);
+  border-radius: 6px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  gap: 0.5rem;
+}
+
+.external-wallet-success {
+  color: #059669;
+  background-color: #ecfdf5;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  font-size: 0.85rem;
 }
