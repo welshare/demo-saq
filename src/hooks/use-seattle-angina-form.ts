@@ -1,28 +1,32 @@
+/**
+ * Form State Management
+ * 
+ * Manages questionnaire form data and tracks completion status.
+ * Form data is passed to both submission methods.
+ */
+
 import { useState, useMemo } from "react";
 
 export interface FormData {
   [key: string]: string | number;
 }
 
-// All required choice question linkIds from the Seattle Angina Questionnaire
+// Required question IDs from the Seattle Angina Questionnaire
 const REQUIRED_QUESTION_IDS = [
-  "94952", // Walking indoors on level ground
-  "94953", // Gardening, vacuuming or carrying groceries
-  "94954", // Lifting or moving heavy objects
+  "94952", // Walking indoors
+  "94953", // Gardening/vacuuming
+  "94954", // Lifting heavy objects
   "94955", // Chest pain frequency
   "94956", // Nitroglycerin usage
-  "94957", // Enjoyment of life limitation
-  "94959", // Satisfaction with current state
+  "94957", // Enjoyment of life
+  "94959", // Satisfaction
 ];
 
 export const useSeattleAnginaForm = () => {
   const [formData, setFormData] = useState<FormData>({});
 
   const handleInputChange = (linkId: string, value: string | number) => {
-    setFormData((prev) => ({
-      ...prev,
-      [linkId]: value,
-    }));
+    setFormData((prev) => ({ ...prev, [linkId]: value }));
   };
 
   const isFormComplete = useMemo(() => {
@@ -31,11 +35,5 @@ export const useSeattleAnginaForm = () => {
     );
   }, [formData]);
 
-  return {
-    formData,
-    setFormData,
-    handleInputChange,
-    isFormComplete,
-  };
+  return { formData, setFormData, handleInputChange, isFormComplete };
 };
-

@@ -1,22 +1,11 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "sonner";
 import "./globals.css";
 import Providers from "@/components/Providers";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: "Seattle Angina Questionnaire - Demo Form",
-  description: "A form for the Seattle Angina Questionnaire that submits to Welshare wallet",
+  title: "Welshare Questionnaire Demo",
+  description: "Demo: Two ways to submit FHIR questionnaires to Welshare profiles",
 };
 
 export default function RootLayout({
@@ -26,15 +15,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
+      <body>
         <Providers>{children}</Providers>
-        <Toaster 
-          position="top-right"
-          richColors
-          theme="dark"
-        />
+        <Toaster position="top-right" />
       </body>
     </html>
   );

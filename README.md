@@ -1,27 +1,79 @@
-# The Seattle Angina Questionnaire on Welshare
+# Welshare Questionnaire Demo
 
-This is a demo on how you can use plain LLMs and the welshare docs' llms.txt to build questionnaire forms from common panel definitions to submit them to a welshare user profile using the [welshare React SDK](https://www.npmjs.com/package/@welshare/react).
+Demonstrates two methods for submitting FHIR questionnaire responses to Welshare user profiles.
 
-## vibing this with Claude Code
+## Two Submission Methods
 
-- download some loinc panel and adjust to your needs, we use https://loinc.org/88479-1/ here. Save as a JSON file (eventually remove the bundle wrapper)
+### Method A: External Wallet (`@welshare/react`)
 
-- our prompt:
+User connects their existing Welshare wallet. The wallet handles signing and submission.
 
-> init an npm repo and create a Nextjs application. It should render a webform for users to answer questions according to the seattle_angina.json Fhir questionnnaire definition.  
-> 
-> The form data must be submitted in accordance to the QuestionnaireResponse for this specific questionnaire definition. Upon submission the   data should go into the welshare wallet as explained here: https://docs.welshare.app/llms-full.txt.  
->
-> The style should look very ugly: it should have a  purple background, green text and input boxes with rounded edges that have a yellow background.
+**When to use:** Users who already have Welshare wallets.
 
-- we had to tell Claude that some things weren't working great.
-- get an application id, register the questionniare at welshare, get the questionnaire id, put it down in the .env file. See: https://docs.welshare.app/sdk#configuration-prerequisites
+**Key files:**
+- `src/components/ExternalWalletSubmission.tsx`
+- `src/hooks/use-external-wallet-submission.ts`
 
-- tell Claude to update the alerts and toasts to not show preliminary errors during the connection phase
+### Method B: Embedded Wallet (Privy + `@welshare/sdk`)
 
-- we finally provided Claude with [the paper that explains the SAQ computation](https://www.jacc.org/doi/epdf/10.1016/0735-1097%2894%2900397-9)
+App creates an embedded wallet for the user via Privy. App manages wallet and uses SDK for direct API submission.
+
+**When to use:** Onboarding users who don't have Welshare wallets yet.
+
+**Key files:**
+- `src/components/EmbeddedWalletSubmission.tsx`
+- `src/hooks/use-seattle-angina-submission.ts`
+- `src/hooks/use-storage-key.ts`
 
 
+## Quick Start
 
+1. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
+2. Copy `.env.example` to `.env` and configure:
+   ```
+   NEXT_PUBLIC_PRIVY_APP_ID=your-privy-app-id
+   NEXT_PUBLIC_WELSHARE_APP_ID=your-welshare-app-id
+   NEXT_PUBLIC_WELSHARE_QUESTIONNAIRE_ID=your-questionnaire-id
+   NEXT_PUBLIC_WELSHARE_ENVIRONMENT=staging
+   ```
 
+3. Run the development server:
+   ```bash
+   pnpm dev
+   ```
+
+## Key Concepts
+
+### FHIR Questionnaire → Form
+
+`QuestionnaireRenderer.tsx` takes a FHIR Questionnaire JSON and renders form fields:
+- `choice` type → `<select>` dropdown
+- `group` type → nested container
+- Response codes from `answerOption` become option values
+
+### Form Data → QuestionnaireResponse
+
+`build-questionnaire-response.ts` converts form state into a FHIR QuestionnaireResponse:
+- Maps user selections back to FHIR `valueCoding` format
+- Includes calculated scores as `valueDecimal` items
+
+### Calculated Scores
+
+`use-seattle-angina-scores.ts` shows how to include computed values in submissions. This is questionnaire-specific logic—adapt for your use case.
+
+## Extending This Demo
+
+1. **Use your own questionnaire:** Replace `seattle_angina.json` with your FHIR Questionnaire
+2. **Customize form rendering:** Modify `QuestionnaireRenderer.tsx` for your question types
+3. **Add/remove scores:** Adjust `use-seattle-angina-scores.ts` or remove if not needed
+4. **Choose one method:** If you only need one submission method, remove the other
+
+## Dependencies
+
+- `@welshare/react` - External wallet connection
+- `@welshare/sdk` - Direct API submission
+- `@privy-io/react-auth` - Embedded wallet authentication

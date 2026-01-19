@@ -1,3 +1,12 @@
+/**
+ * Method #1: External Wallet Submission
+ * 
+ * Uses @welshare/react to connect to user's existing Welshare wallet.
+ * The wallet handles signing and submission - app just provides data.
+ * 
+ * Use this when: Users already have Welshare wallets
+ */
+
 import { buildQuestionnaireResponse } from "@/utils/build-questionnaire-response";
 import { Schemas, useWelshare, WELSHARE_API_ENVIRONMENT } from "@welshare/react";
 import type { SubmissionPayload } from "@welshare/react/types";
@@ -12,73 +21,45 @@ export const useExternalWalletSubmission = (
 ) => {
   const [submitted, setSubmitted] = useState(false);
 
-  const {
-    isConnected,
-    openWallet,
-    submitData,
-    isSubmitting,
-    storageKey,
-  } = useWelshare({
-    applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID || "",
-    environment: process.env.NEXT_PUBLIC_WELSHARE_ENVIRONMENT as keyof typeof WELSHARE_API_ENVIRONMENT,
-    callbacks: {
-      onError: (error: unknown) => {
-        console.error("External submission error:", error);
-        const message = error instanceof Error ? error.message : String(error);
-        toast.error("Submission Failed", {
-          description: message,
-          duration: 5000,
-        });
-        setSubmitted(false);
+  // Initialize Welshare hook with app credentials and callbacks
+  const { isConnected, openWallet, submitData, isSubmitting, storageKey } =
+    useWelshare({
+      applicationId: process.env.NEXT_PUBLIC_WELSHARE_APP_ID || "",
+      environment: process.env
+        .NEXT_PUBLIC_WELSHARE_ENVIRONMENT as keyof typeof WELSHARE_API_ENVIRONMENT,
+      callbacks: {
+        onError: (error: unknown) => {
+          console.error("Submission error:", error);
+          toast.error("Submission failed");
+          setSubmitted(false);
+        },
+        onUploaded: (payload: SubmissionPayload<unknown>) => {
+          console.log("Submission successful:", payload);
+          setSubmitted(true);
+          toast.success("Submitted to Welshare");
+        },
       },
-      onUploaded: (payload: SubmissionPayload<unknown>) => {
-        console.log("External submission successful:", payload);
-        setSubmitted(true);
-        toast.success("Data submitted successfully", {
-          description:
-            "Your data has been saved to your Welshare profile via external wallet.",
-          duration: 5000,
-        });
-      },
-    },
-  });
+    });
 
   const submitForm = useCallback(async () => {
     if (!isConnected) {
-      toast.warning("Wallet Not Connected", {
-        description: "Please connect your Welshare wallet first.",
-        duration: 3000,
-      });
+      toast.warning("Connect wallet first");
       return;
     }
 
     if (Object.keys(formData).length === 0) {
-      toast.warning("Form Incomplete", {
-        description: "Please answer at least one question before submitting.",
-        duration: 3000,
-      });
+      toast.warning("Please answer questions first");
       return;
     }
 
     const response = buildQuestionnaireResponse(formData, scores);
     if (!response) {
-      toast.error("Form Incomplete", {
-        description: "Please answer at least one question before submitting.",
-        duration: 3000,
-      });
+      toast.error("Could not build response");
       return;
     }
 
-    try {
-      submitData(Schemas.QuestionnaireResponse, response);
-    } catch (error) {
-      console.error("External submission error:", error);
-      toast.error("Submission Failed", {
-        description:
-          "There was an error submitting your data. Please try again.",
-        duration: 5000,
-      });
-    }
+    // Submit using the QuestionnaireResponse schema
+    submitData(Schemas.QuestionnaireResponse, response);
   }, [isConnected, formData, scores, submitData]);
 
   const truncateDid = (did: string, start = 12, end = 8) =>

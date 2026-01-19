@@ -1,10 +1,12 @@
 "use client";
 
+// Main form component demonstrating two Welshare submission methods
+
 import { useStorageKey } from "@/hooks/use-storage-key";
 import { usePrivy } from "@privy-io/react-auth";
 import React from "react";
 import questionnaireData from "../seattle_angina.json";
-import LoginWithStorageKeyComponent from "./LoginWithStorageKeyComponent";
+import EmbeddedWalletSubmission from "./EmbeddedWalletSubmission";
 import QuestionnaireRenderer from "./QuestionnaireRenderer";
 import ScoreDisplay from "./ScoreDisplay";
 import ExternalWalletSubmission from "./ExternalWalletSubmission";
@@ -32,7 +34,7 @@ export default function SeattleAnginaForm() {
     <div className="form-container">
       <h1 className="form-title">{questionnaireData.title}</h1>
       <p className="form-description">
-        The Seattle Angina Questionnaire (SAQ) is a 19-item assessment tool designed to evaluate health status and quality of life in patients with coronary artery disease. It measures physical limitations, angina frequency and stability, treatment satisfaction, and disease perception to help healthcare professionals monitor disease progression and inform treatment strategies.
+        Demo: Submit FHIR questionnaire responses to Welshare using two different methods.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -45,20 +47,11 @@ export default function SeattleAnginaForm() {
         <ScoreDisplay scores={scores} />
 
         <div className="submission-options">
-          <h2 className="submission-options-title">Submission Options</h2>
-          <p className="submission-options-description">
-            Choose how you want to submit your questionnaire response to your
-            Welshare profile.
-          </p>
+          <h2 className="submission-options-title">Submission Methods</h2>
 
+          {/* Method #1: External Wallet - User brings their own Welshare wallet */}
           <div className="submission-option">
-            <h3 className="submission-option-title">
-              Option A: External Wallet
-            </h3>
-            <p className="submission-option-description">
-              Connect to your existing Welshare wallet via the external wallet
-              interface.
-            </p>
+            <h3 className="submission-option-title">Method A: External Wallet</h3>
             <ExternalWalletSubmission
               formData={formData}
               scores={scores}
@@ -66,43 +59,25 @@ export default function SeattleAnginaForm() {
             />
           </div>
 
-          <div className="submission-divider">
-            <span>or</span>
-          </div>
+          <div className="submission-divider">— or —</div>
 
+          {/* Method #2: Embedded Wallet - App creates wallet for user via Privy */}
           <div className="submission-option">
-            <h3 className="submission-option-title">
-              Option B: Direct Submission (via app controlled wallet)
-            </h3>
-            <p className="submission-option-description">
-              Log in with your email or Google account to create an embedded
-              wallet and submit directly.
-            </p>
-            <div className="form-field">
-              <LoginWithStorageKeyComponent
-                storageKey={storageKey}
-                makeStorageKey={makeStorageKey}
-              />
-            </div>
+            <h3 className="submission-option-title">Method B: Embedded Wallet</h3>
+            <EmbeddedWalletSubmission
+              storageKey={storageKey}
+              makeStorageKey={makeStorageKey}
+            />
 
-            {user && (
-              <div className="form-field">
-                <button
-                  type="submit"
-                  className="form-button"
-                  disabled={!storageKey || isSubmitting || !isFormComplete}
-                >
-                  {isSubmitting ? "Submitting..." : "Submit to Welshare Profile"}
-                </button>
-                {!isFormComplete && (
-                  <p className="form-incomplete-hint">
-                    Please answer all questions to enable submission.
-                  </p>
-                )}
-                {isSubmitting && (
-                  <p className="submit-status">Submitting your response...</p>
-                )}
-              </div>
+            {user && storageKey && (
+              <button
+                type="submit"
+                className="form-button"
+                disabled={isSubmitting || !isFormComplete}
+                style={{ marginTop: "1rem" }}
+              >
+                {isSubmitting ? "Submitting..." : "Submit to Welshare"}
+              </button>
             )}
           </div>
         </div>
