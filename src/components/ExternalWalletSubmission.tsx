@@ -12,12 +12,14 @@ interface ExternalWalletSubmissionProps {
   formData: FormData;
   scores: SeattleAnginaScores;
   isFormComplete: boolean;
+  onSuccess?: () => void;
 }
 
 export default function ExternalWalletSubmission({
   formData,
   scores,
   isFormComplete,
+  onSuccess,
 }: ExternalWalletSubmissionProps) {
   const {
     isConnected,
@@ -27,7 +29,7 @@ export default function ExternalWalletSubmission({
     storageKey,
     submitted,
     truncateDid,
-  } = useExternalWalletSubmission(formData, scores);
+  } = useExternalWalletSubmission(formData, scores, onSuccess);
 
   return (
     <div>

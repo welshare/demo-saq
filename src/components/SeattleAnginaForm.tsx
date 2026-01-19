@@ -17,12 +17,13 @@ import { useSeattleAnginaSubmission } from "@/hooks/use-seattle-angina-submissio
 export default function SeattleAnginaForm() {
   const { storageKey, makeStorageKey } = useStorageKey();
   const { user } = usePrivy();
-  const { formData, handleInputChange, isFormComplete } = useSeattleAnginaForm();
+  const { formData, handleInputChange, isFormComplete, clearFormData } = useSeattleAnginaForm();
   const scores = useSeattleAnginaScores(formData);
   const { isSubmitting, submitForm } = useSeattleAnginaSubmission(
     formData,
     scores,
-    storageKey
+    storageKey,
+    clearFormData
   );
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -56,6 +57,7 @@ export default function SeattleAnginaForm() {
               formData={formData}
               scores={scores}
               isFormComplete={isFormComplete}
+              onSuccess={clearFormData}
             />
           </div>
 

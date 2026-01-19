@@ -17,7 +17,8 @@ import { SeattleAnginaScores } from "./use-seattle-angina-scores";
 
 export const useExternalWalletSubmission = (
   formData: FormData,
-  scores: SeattleAnginaScores
+  scores: SeattleAnginaScores,
+  onSuccess?: () => void
 ) => {
   const [submitted, setSubmitted] = useState(false);
 
@@ -37,6 +38,7 @@ export const useExternalWalletSubmission = (
           console.log("Submission successful:", payload);
           setSubmitted(true);
           toast.success("Submitted to Welshare");
+          onSuccess?.();
         },
       },
     });

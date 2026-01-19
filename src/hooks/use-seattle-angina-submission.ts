@@ -24,7 +24,8 @@ import { SeattleAnginaScores } from "./use-seattle-angina-scores";
 export const useSeattleAnginaSubmission = (
   formData: FormData,
   scores: SeattleAnginaScores,
-  storageKey: SessionKeyData | undefined
+  storageKey: SessionKeyData | undefined,
+  onSuccess?: () => void
 ) => {
   const { user } = usePrivy();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -76,6 +77,7 @@ export const useSeattleAnginaSubmission = (
 
       console.log("Submission response:", apiResponse);
       toast.success("Submitted to Welshare");
+      onSuccess?.();
     } catch (error) {
       console.error("Submission failed:", error);
       toast.error("Submission failed");
