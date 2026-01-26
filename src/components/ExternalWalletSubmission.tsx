@@ -5,8 +5,10 @@
 
 import { useExternalWalletSubmission } from "@/hooks/use-external-wallet-submission";
 import { WelshareLogo } from "@welshare/react";
+import { LegalConsentForm } from "@welshare/questionnaire";
 import { FormData } from "@/hooks/use-seattle-angina-form";
 import { SeattleAnginaScores } from "@/hooks/use-seattle-angina-scores";
+import { useState } from "react";
 
 interface ExternalWalletSubmissionProps {
   formData: FormData;
@@ -21,6 +23,9 @@ export default function ExternalWalletSubmission({
   isFormComplete,
   onSuccess,
 }: ExternalWalletSubmissionProps) {
+  const [showConsent, setShowConsent] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false);
+
   const {
     isConnected,
     openWallet,
@@ -30,6 +35,14 @@ export default function ExternalWalletSubmission({
     submitted,
     truncateDid,
   } = useExternalWalletSubmission(formData, scores, onSuccess);
+
+  const handleSubmitClick = () => {
+    if (hasConsented) {
+      submitForm();
+    } else {
+      setShowConsent(true);
+    }
+  };
 
   return (
     <div>
@@ -50,15 +63,39 @@ export default function ExternalWalletSubmission({
           Connect Welshare Wallet
         </button>
       ) : (
-        <button
-          type="button"
-          className="form-button"
-          onClick={submitForm}
-          disabled={isSubmitting || submitted || !isFormComplete}
-        >
-          <WelshareLogo />
-          {isSubmitting ? "Saving..." : submitted ? "Submitted" : "Save to Welshare"}
-        </button>
+        <>
+          <div
+            className={`consent-panel ${
+              showConsent ? "consent-panel-open" : "consent-panel-closed"
+            }`}
+          >
+            <LegalConsentForm
+              onConfirm={() => {
+                setHasConsented(true);
+                setShowConsent(false);
+                submitForm();
+              }}
+              onCancel={() => setShowConsent(false)}
+              confirmButtonLabel="Confirm & Save to Welshare"
+            />
+          </div>
+
+          <button
+            type="button"
+            className="form-button"
+            onClick={handleSubmitClick}
+            disabled={
+              isSubmitting || submitted || !isFormComplete || showConsent
+            }
+          >
+            <WelshareLogo />
+            {isSubmitting
+              ? "Saving..."
+              : submitted
+              ? "Submitted"
+              : "Save to Welshare"}
+          </button>
+        </>
       )}
 
       {submitted && (

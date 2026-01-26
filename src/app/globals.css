@@ -57,6 +57,10 @@ body {
   font-size: 1rem;
   font-weight: 600;
   cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  justify-content: center;
 }
 
 .form-button:disabled {
@@ -197,4 +201,134 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 4px;
   font-size: 0.85rem;
+}
+
+/* Legal Consent Panel - Collapsible */
+.consent-panel {
+  display: grid;
+  grid-template-rows: 0fr;
+  overflow: hidden;
+  transition: grid-template-rows 0.3s ease-out, margin 0.3s ease-out;
+}
+
+.consent-panel-open {
+  grid-template-rows: 1fr;
+  margin: 1rem 0;
+}
+
+.consent-panel-closed {
+  grid-template-rows: 0fr;
+  margin: 0;
+}
+
+.consent-panel > * {
+  min-height: 0;
+}
+
+/* Welshare Questionnaire Button Styles */
+.wq-button {
+  padding: 0.75rem 2rem;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+}
+
+.wq-button + .wq-button {
+  margin-left: 0.75rem;
+}
+
+.wq-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.wq-button-primary {
+  background-color: var(--color-primary);
+  color: #ffffff;
+  border-color: var(--color-primary);
+}
+
+.wq-button-primary:hover:not(:disabled) {
+  background-color: #552e7a;
+  border-color: #552e7a;
+}
+
+.wq-button-outline {
+  background-color: #ffffff;
+  color: var(--color-primary);
+  border-color: var(--color-border);
+}
+
+.wq-button-outline:hover:not(:disabled) {
+  background-color: var(--color-primary-light);
+  border-color: var(--color-primary);
+}
+
+/* Welshare Questionnaire Checkbox Styles */
+.wq-legal-consent-section {
+  margin: 1rem 0;
+}
+
+.wq-legal-consent-checkbox-row {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 0;
+}
+
+.wq-legal-consent-checkbox-row input[type="checkbox"] {
+  margin-top: 0.25rem;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.wq-legal-consent-label {
+  cursor: pointer;
+  flex: 1;
+}
+
+.wq-legal-consent-link {
+  color: var(--color-primary);
+  text-decoration: underline;
+  font-weight: 600;
+}
+
+.wq-legal-consent-link:hover {
+  color: #552e7a;
+  text-decoration: none;
+}
+
+/* Welshare Legal Consent Info Box Styles */
+.wq-legal-consent-info-box {
+  background-color: var(--color-primary-light);
+  border-left: 3px solid var(--color-border);
+  border-radius: 4px;
+  padding: 1rem;
+  margin: 1rem 0;
+}
+
+.wq-legal-consent-info-title {
+  color: var(--color-primary);
+  font-weight: 600;
+  font-size: 0.9rem;
+  margin: 0 0 0.75rem 0;
+}
+
+.wq-legal-consent-info-list {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--color-text);
+}
+
+.wq-legal-consent-info-list li {
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.wq-legal-consent-info-list li:last-child {
+  margin-bottom: 0;
 }
