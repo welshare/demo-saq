@@ -4,7 +4,7 @@
 
 import { useStorageKey } from "@/hooks/use-storage-key";
 import { usePrivy } from "@privy-io/react-auth";
-import React from "react";
+import React, { useState } from "react";
 import questionnaireData from "../seattle_angina.json";
 import EmbeddedWalletSubmission from "./EmbeddedWalletSubmission";
 import QuestionnaireRenderer from "./QuestionnaireRenderer";
@@ -13,11 +13,13 @@ import ExternalWalletSubmission from "./ExternalWalletSubmission";
 import { useSeattleAnginaForm } from "@/hooks/use-seattle-angina-form";
 import { useSeattleAnginaScores } from "@/hooks/use-seattle-angina-scores";
 import { useSeattleAnginaSubmission } from "@/hooks/use-seattle-angina-submission";
+import { LegalConsentForm } from "@welshare/questionnaire";
 
 export default function SeattleAnginaForm() {
   const { storageKey, makeStorageKey } = useStorageKey();
   const { user } = usePrivy();
-  const { formData, handleInputChange, isFormComplete, clearFormData } = useSeattleAnginaForm();
+  const { formData, handleInputChange, isFormComplete, clearFormData } =
+    useSeattleAnginaForm();
   const scores = useSeattleAnginaScores(formData);
   const { isSubmitting, submitForm } = useSeattleAnginaSubmission(
     formData,
@@ -26,16 +28,24 @@ export default function SeattleAnginaForm() {
     clearFormData
   );
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const [showConsent, setShowConsent] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    await submitForm();
+    if (hasConsented) {
+      submitForm();
+    } else {
+      setShowConsent(true);
+    }
   };
 
   return (
     <div className="form-container">
       <h1 className="form-title">{questionnaireData.title}</h1>
       <p className="form-description">
-        Demo: Submit FHIR questionnaire responses to Welshare using two different methods.
+        Demo: Submit FHIR questionnaire responses to Welshare using two
+        different methods.
       </p>
 
       <form onSubmit={handleSubmit}>
@@ -52,7 +62,9 @@ export default function SeattleAnginaForm() {
 
           {/* Method #1: External Wallet - User brings their own Welshare wallet */}
           <div className="submission-option">
-            <h3 className="submission-option-title">Method A: External Wallet</h3>
+            <h3 className="submission-option-title">
+              Method A: External Wallet
+            </h3>
             <ExternalWalletSubmission
               formData={formData}
               scores={scores}
@@ -65,21 +77,44 @@ export default function SeattleAnginaForm() {
 
           {/* Method #2: Embedded Wallet - App creates wallet for user via Privy */}
           <div className="submission-option">
-            <h3 className="submission-option-title">Method B: Embedded Wallet</h3>
+            <h3 className="submission-option-title">
+              Method B: Embedded Wallet
+            </h3>
             <EmbeddedWalletSubmission
               storageKey={storageKey}
               makeStorageKey={makeStorageKey}
             />
 
             {user && storageKey && (
-              <button
-                type="submit"
-                className="form-button"
-                disabled={isSubmitting || !isFormComplete}
-                style={{ marginTop: "1rem" }}
-              >
-                {isSubmitting ? "Submitting..." : "Submit to Welshare"}
-              </button>
+              <>
+                <div
+                  className={`consent-panel ${
+                    showConsent ? "consent-panel-open" : "consent-panel-closed"
+                  }`}
+                >
+                  <LegalConsentForm
+                    onConfirm={() => {
+                      setHasConsented(true);
+                      setShowConsent(false);
+                    }}
+                    onCancel={() => setShowConsent(false)}
+                    confirmButtonLabel="Confirm & Save to Welshare"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="form-button"
+                  disabled={isSubmitting || !isFormComplete || showConsent}
+                  style={{ marginTop: "1rem" }}
+                >
+                  {isSubmitting
+                    ? "Submitting..."
+                    : hasConsented
+                      ? "Submit to Welshare"
+                      : "Save to Welshare"}
+                </button>
+              </>
             )}
           </div>
         </div>
