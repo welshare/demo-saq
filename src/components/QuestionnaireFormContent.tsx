@@ -14,7 +14,7 @@ import {
 } from "@welshare/questionnaire";
 import type { QuestionnaireItem, Coding } from "@welshare/questionnaire";
 import { usePrivy } from "@privy-io/react-auth";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useMemo } from "react";
 import EmbeddedWalletSubmission from "./EmbeddedWalletSubmission";
 import ExternalWalletSubmission from "./ExternalWalletSubmission";
 import ScoreDisplay from "./ScoreDisplay";
@@ -49,9 +49,12 @@ export default function QuestionnaireFormContent() {
   const [hasConsented, setHasConsented] = useState(false);
   const restoredRef = useRef(false);
 
-  // Restore answers from sessionStorage on mount
+  // Restore answers from sessionStorage after provider has initialized.
+  // The provider's init effect sets response.questionnaire — we wait for that
+  // to avoid a race where our updateAnswer calls get overwritten by initialization.
+  const isProviderReady = !!response.questionnaire;
   useEffect(() => {
-    if (restoredRef.current) return;
+    if (restoredRef.current || !isProviderReady) return;
     restoredRef.current = true;
 
     if (typeof window === "undefined") return;
@@ -63,7 +66,6 @@ export default function QuestionnaireFormContent() {
 
       for (const [linkId, code] of Object.entries(parsed)) {
         if (typeof code === "string" && code) {
-          // Find the full valueCoding from the questionnaire to restore properly
           const coding = findCodingForCode(
             questionnaire.item ?? [],
             linkId,
@@ -77,29 +79,39 @@ export default function QuestionnaireFormContent() {
     } catch {
       // ignore
     }
-  }, [questionnaire, updateAnswer]);
+  }, [isProviderReady, questionnaire, updateAnswer]);
+
+  const clearForm = () => {
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem(STORAGE_KEY);
+      window.location.reload();
+    }
+  };
 
   // Extract answer codes from library state for score calculation and persistence.
   // Computed on every render since getAnswer reads from the latest response state.
-  const answerCodes: AnswerCodeMap = {};
-  for (const linkId of REQUIRED_QUESTION_IDS) {
-    const answer = getAnswer(linkId);
-    if (answer?.valueCoding?.code) {
-      answerCodes[linkId] = answer.valueCoding.code;
+  const answerCodes = useMemo(() => {
+    const _answerCodes: AnswerCodeMap = {};
+    for (const linkId of REQUIRED_QUESTION_IDS) {
+      const answer = getAnswer(linkId);
+      if (answer?.valueCoding?.code) {
+        _answerCodes[linkId] = answer.valueCoding.code;
+      }
     }
-  }
+    return _answerCodes;
+  }, [response]);
 
   // Sync answer codes to sessionStorage
-  const answerCodesJson = JSON.stringify(answerCodes);
   useEffect(() => {
     if (typeof window === "undefined") return;
+    const answerCodesJson = JSON.stringify(answerCodes);
     if (answerCodesJson === "{}") return;
     try {
       sessionStorage.setItem(STORAGE_KEY, answerCodesJson);
     } catch {
       // ignore
     }
-  }, [answerCodesJson]);
+  }, [answerCodes]);
 
   const scores = useSeattleAnginaScores(answerCodes);
 
@@ -225,14 +237,19 @@ export default function QuestionnaireFormContent() {
               >
                 Choices: {showPills ? "Pills" : "Stacked"}
               </button>
+              <button
+                className="wq-button wq-button-outline"
+                onClick={() => {
+                  clearForm();
+                }}
+              >
+                Clear form
+              </button>
             </div>
             {debugMode && (
-              <textarea
-                value={JSON.stringify(response, null, 2)}
-                rows={10}
-                cols={50}
-                readOnly
-              />
+              <div className="wq-debug-section wq-debug-json">
+                <code>{JSON.stringify(response, null, 2)}</code>
+              </div>
             )}
           </div>
         </div>
