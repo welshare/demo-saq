@@ -4,21 +4,21 @@
 // User connects their own Welshare wallet via @welshare/react
 
 import { useExternalWalletSubmission } from "@/hooks/use-external-wallet-submission";
-import { WelshareLogo } from "@welshare/react";
-import { LegalConsentForm } from "@welshare/questionnaire";
-import { FormData } from "@/hooks/use-seattle-angina-form";
 import { SeattleAnginaScores } from "@/hooks/use-seattle-angina-scores";
+import type { QuestionnaireResponse } from "@welshare/questionnaire";
+import { LegalConsentForm } from "@welshare/questionnaire";
+import { WelshareLogo } from "@welshare/react";
 import { useState } from "react";
 
 interface ExternalWalletSubmissionProps {
-  formData: FormData;
+  libraryResponse: QuestionnaireResponse;
   scores: SeattleAnginaScores;
   isFormComplete: boolean;
   onSuccess?: () => void;
 }
 
 export default function ExternalWalletSubmission({
-  formData,
+  libraryResponse,
   scores,
   isFormComplete,
   onSuccess,
@@ -34,7 +34,7 @@ export default function ExternalWalletSubmission({
     storageKey,
     submitted,
     truncateDid,
-  } = useExternalWalletSubmission(formData, scores, onSuccess);
+  } = useExternalWalletSubmission(libraryResponse, scores, onSuccess);
 
   const handleSubmitClick = () => {
     if (hasConsented) {

@@ -1,18 +1,18 @@
-import { FormData } from "./use-seattle-angina-form";
-
 export interface SeattleAnginaScores {
   physicalLimitationScore: number | null;
   overallSummaryScore: number | null;
 }
 
+export type AnswerCodeMap = Record<string, string>;
+
 // Example: Calculate scores from questionnaire responses to include in submission
-export const useSeattleAnginaScores = (formData: FormData): SeattleAnginaScores => {
+export const useSeattleAnginaScores = (answerCodes: AnswerCodeMap): SeattleAnginaScores => {
   // Physical limitation: average of activity limitation responses (94952, 94953, 94954)
   // Response codes map to 1-5 scale where higher = less limited
   const limitationIds = ["94952", "94953", "94954"];
   const scores = limitationIds
     .map((id) => {
-      const code = formData[id] as string;
+      const code = answerCodes[id];
       // Simple ordinal mapping: first option = 1, last = 5
       const codeToScore: Record<string, number> = {
         "LA27701-4": 1, "LA27702-2": 2, "LA6460-5": 3,

@@ -33,181 +33,173 @@
   ],
   "item": [
     {
-      "linkId": "94950",
-      "text": "Activity limitations panel",
-      "type": "group",
-      "required": true,
-      "item": [
+      "linkId": "94952",
+      "code": [
         {
-          "linkId": "94952",
-          "code": [
-            {
-              "system": "http://loinc.org",
-              "code": "88480-9",
-              "display": "Walking indoors on level ground"
-            }
-          ],
-          "text": "Walking indoors on level ground",
-          "type": "choice",
-          "repeats": false,
-          "answerOption": [
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27701-4",
-                "display": "Extremely limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27702-2",
-                "display": "Quite a bit limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA6460-5",
-                "display": "Moderately limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA9605-2",
-                "display": "Slightly limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27707-1",
-                "display": "Not at all limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27708-9",
-                "display": "Limited for other reasons or did not do the activity"
-              }
-            }
-          ]
+          "system": "http://loinc.org",
+          "code": "88480-9",
+          "display": "Walking indoors on level ground"
+        }
+      ],
+      "text": "Walking indoors on level ground",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27701-4",
+            "display": "Extremely limited"
+          }
         },
         {
-          "linkId": "94953",
-          "code": [
-            {
-              "system": "http://loinc.org",
-              "code": "88478-3",
-              "display": "Gardening, vacuuming or carrying groceries"
-            }
-          ],
-          "text": "Gardening, vacuuming or carrying groceries",
-          "type": "choice",
-          "repeats": false,
-          "answerOption": [
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27701-4",
-                "display": "Extremely limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27702-2",
-                "display": "Quite a bit limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA6460-5",
-                "display": "Moderately limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA9605-2",
-                "display": "Slightly limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27707-1",
-                "display": "Not at all limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27708-9",
-                "display": "Limited for other reasons or did not do the activity"
-              }
-            }
-          ]
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27702-2",
+            "display": "Quite a bit limited"
+          }
         },
         {
-          "linkId": "94954",
-          "code": [
-            {
-              "system": "http://loinc.org",
-              "code": "88477-5",
-              "display": "Lifting or moving heavy objects (e.g. furniture, children)"
-            }
-          ],
-          "text": "Lifting or moving heavy objects (e.g. furniture, children)",
-          "type": "choice",
-          "repeats": false,
-          "answerOption": [
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27701-4",
-                "display": "Extremely limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27702-2",
-                "display": "Quite a bit limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA6460-5",
-                "display": "Moderately limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA9605-2",
-                "display": "Slightly limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27707-1",
-                "display": "Not at all limited"
-              }
-            },
-            {
-              "valueCoding": {
-                "system": "http://loinc.org",
-                "code": "LA27708-9",
-                "display": "Limited for other reasons or did not do the activity"
-              }
-            }
-          ]
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA6460-5",
+            "display": "Moderately limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA9605-2",
+            "display": "Slightly limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27707-1",
+            "display": "Not at all limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27708-9",
+            "display": "Limited for other reasons or did not do the activity"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94953",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88478-3",
+          "display": "Gardening, vacuuming or carrying groceries"
+        }
+      ],
+      "text": "Gardening, vacuuming or carrying groceries",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27701-4",
+            "display": "Extremely limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27702-2",
+            "display": "Quite a bit limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA6460-5",
+            "display": "Moderately limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA9605-2",
+            "display": "Slightly limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27707-1",
+            "display": "Not at all limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27708-9",
+            "display": "Limited for other reasons or did not do the activity"
+          }
+        }
+      ]
+    },
+    {
+      "linkId": "94954",
+      "code": [
+        {
+          "system": "http://loinc.org",
+          "code": "88477-5",
+          "display": "Lifting or moving heavy objects (e.g. furniture, children)"
+        }
+      ],
+      "text": "Lifting or moving heavy objects (e.g. furniture, children)",
+      "type": "choice",
+      "repeats": false,
+      "answerOption": [
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27701-4",
+            "display": "Extremely limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27702-2",
+            "display": "Quite a bit limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA6460-5",
+            "display": "Moderately limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA9605-2",
+            "display": "Slightly limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27707-1",
+            "display": "Not at all limited"
+          }
+        },
+        {
+          "valueCoding": {
+            "system": "http://loinc.org",
+            "code": "LA27708-9",
+            "display": "Limited for other reasons or did not do the activity"
+          }
         }
       ]
     },
@@ -428,22 +420,46 @@
     {
       "linkId": "94960",
       "text": "Physical limitation score",
-      "type": "decimal"
+      "type": "decimal",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+          "valueBoolean": true
+        }
+      ]
     },
     {
       "linkId": "94961",
       "text": "Symptom frequency score",
-      "type": "decimal"
+      "type": "decimal",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+          "valueBoolean": true
+        }
+      ]
     },
     {
       "linkId": "94962",
       "text": "Quality of life score",
-      "type": "decimal"
+      "type": "decimal",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+          "valueBoolean": true
+        }
+      ]
     },
     {
       "linkId": "94963",
       "text": "Overall summary score",
-      "type": "decimal"
+      "type": "decimal",
+      "extension": [
+        {
+          "url": "http://hl7.org/fhir/StructureDefinition/questionnaire-hidden",
+          "valueBoolean": true
+        }
+      ]
     }
   ]
 }

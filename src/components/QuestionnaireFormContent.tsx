@@ -1,0 +1,214 @@
+"use client";
+
+import { useStorageKey } from "@/hooks/use-storage-key";
+import {
+  AnswerCodeMap,
+  useSeattleAnginaScores,
+} from "@/hooks/use-seattle-angina-scores";
+import { useSeattleAnginaSubmission } from "@/hooks/use-seattle-angina-submission";
+import {
+  QuestionRenderer,
+  useQuestionnaire,
+  LegalConsentForm,
+  isQuestionHidden,
+} from "@welshare/questionnaire";
+import type { QuestionnaireItem, Coding } from "@welshare/questionnaire";
+import { usePrivy } from "@privy-io/react-auth";
+import React, { useState, useEffect, useRef } from "react";
+import EmbeddedWalletSubmission from "./EmbeddedWalletSubmission";
+import ExternalWalletSubmission from "./ExternalWalletSubmission";
+import ScoreDisplay from "./ScoreDisplay";
+
+const STORAGE_KEY = "seattle-angina-form-draft";
+
+// Required question linkIds (all choice questions the user must answer)
+const REQUIRED_QUESTION_IDS = [
+  "94952", "94953", "94954", "94955", "94956", "94957", "94959",
+];
+
+export default function QuestionnaireFormContent() {
+  const { questionnaire, response, getAnswer, updateAnswer } =
+    useQuestionnaire();
+  const { storageKey, makeStorageKey } = useStorageKey();
+  const { user } = usePrivy();
+
+  const [showConsent, setShowConsent] = useState(false);
+  const [hasConsented, setHasConsented] = useState(false);
+  const restoredRef = useRef(false);
+
+  // Restore answers from sessionStorage on mount
+  useEffect(() => {
+    if (restoredRef.current) return;
+    restoredRef.current = true;
+
+    if (typeof window === "undefined") return;
+    try {
+      const saved = sessionStorage.getItem(STORAGE_KEY);
+      if (!saved) return;
+      const parsed = JSON.parse(saved);
+      if (typeof parsed !== "object" || parsed === null) return;
+
+      for (const [linkId, code] of Object.entries(parsed)) {
+        if (typeof code === "string" && code) {
+          // Find the full valueCoding from the questionnaire to restore properly
+          const coding = findCodingForCode(questionnaire.item ?? [], linkId, code);
+          if (coding) {
+            updateAnswer(linkId, { valueCoding: coding });
+          }
+        }
+      }
+    } catch {
+      // ignore
+    }
+  }, [questionnaire, updateAnswer]);
+
+  // Extract answer codes from library state for score calculation and persistence.
+  // Computed on every render since getAnswer reads from the latest response state.
+  const answerCodes: AnswerCodeMap = {};
+  for (const linkId of REQUIRED_QUESTION_IDS) {
+    const answer = getAnswer(linkId);
+    if (answer?.valueCoding?.code) {
+      answerCodes[linkId] = answer.valueCoding.code;
+    }
+  }
+
+  // Sync answer codes to sessionStorage
+  const answerCodesJson = JSON.stringify(answerCodes);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    if (answerCodesJson === "{}") return;
+    try {
+      sessionStorage.setItem(STORAGE_KEY, answerCodesJson);
+    } catch {
+      // ignore
+    }
+  }, [answerCodesJson]);
+
+  const scores = useSeattleAnginaScores(answerCodes);
+
+  const isFormComplete = REQUIRED_QUESTION_IDS.every((id) => !!answerCodes[id]);
+
+  const clearFormData = () => {
+    if (typeof window !== "undefined") {
+      try {
+        sessionStorage.removeItem(STORAGE_KEY);
+      } catch {
+        // ignore
+      }
+    }
+  };
+
+  const { isSubmitting, submitForm } = useSeattleAnginaSubmission(
+    response,
+    scores,
+    storageKey,
+    clearFormData
+  );
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (hasConsented) {
+      submitForm();
+    } else {
+      setShowConsent(true);
+    }
+  };
+
+  // Render visible top-level items
+  const visibleItems = (questionnaire.item ?? []).filter(
+    (item) => !isQuestionHidden(item)
+  );
+
+  return (
+    <>
+      <form onSubmit={handleSubmit}>
+        {visibleItems.map((item) => (
+          <QuestionRenderer key={item.linkId} item={item as QuestionnaireItem} />
+        ))}
+
+        <ScoreDisplay scores={scores} />
+
+        <div className="submission-options">
+          <h2 className="submission-options-title">Submission Methods</h2>
+
+          <div className="submission-option">
+            <h3 className="submission-option-title">
+              Method A: External Wallet
+            </h3>
+            <ExternalWalletSubmission
+              libraryResponse={response}
+              scores={scores}
+              isFormComplete={isFormComplete}
+              onSuccess={clearFormData}
+            />
+          </div>
+
+          <div className="submission-divider">— or —</div>
+
+          <div className="submission-option">
+            <h3 className="submission-option-title">
+              Method B: Embedded Wallet
+            </h3>
+            <EmbeddedWalletSubmission
+              storageKey={storageKey}
+              makeStorageKey={makeStorageKey}
+            />
+
+            {user && storageKey && (
+              <>
+                <div
+                  className={`consent-panel ${
+                    showConsent ? "consent-panel-open" : "consent-panel-closed"
+                  }`}
+                >
+                  <LegalConsentForm
+                    onConfirm={() => {
+                      setHasConsented(true);
+                      setShowConsent(false);
+                    }}
+                    onCancel={() => setShowConsent(false)}
+                    confirmButtonLabel="Confirm & Save to Welshare"
+                  />
+                </div>
+
+                <button
+                  type="submit"
+                  className="form-button"
+                  disabled={isSubmitting || !isFormComplete || showConsent}
+                  style={{ marginTop: "1rem" }}
+                >
+                  {isSubmitting
+                    ? "Submitting..."
+                    : hasConsented
+                      ? "Submit to Welshare"
+                      : "Save to Welshare"}
+                </button>
+              </>
+            )}
+          </div>
+        </div>
+      </form>
+    </>
+  );
+}
+
+// Helper: find the full coding object for a given linkId and code string
+function findCodingForCode(
+  items: QuestionnaireItem[],
+  linkId: string,
+  code: string
+): Coding | undefined {
+  for (const item of items) {
+    if (item.linkId === linkId) {
+      const option = item.answerOption?.find(
+        (opt) => opt.valueCoding?.code === code
+      );
+      return option?.valueCoding ?? undefined;
+    }
+    if (item.item) {
+      const found = findCodingForCode(item.item, linkId, code);
+      if (found) return found;
+    }
+  }
+  return undefined;
+}

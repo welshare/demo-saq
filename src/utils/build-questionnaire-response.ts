@@ -1,52 +1,20 @@
-import { FormData } from "@/hooks/use-seattle-angina-form";
 import { SeattleAnginaScores } from "@/hooks/use-seattle-angina-scores";
+import type { QuestionnaireResponse } from "@welshare/questionnaire";
 import questionnaireData from "../seattle_angina.json";
 
-// Build a FHIR QuestionnaireResponse from form data and calculated scores
-export interface QuestionnaireResponse {
-  resourceType: "QuestionnaireResponse";
-  questionnaire: string;
-  status: string;
-  item: Array<{
-    linkId: string;
-    answer?: Array<{
-      valueCoding?: { system: string; code: string; display: string };
-      valueDecimal?: number;
-    }>;
-  }>;
-}
-
-const findQuestionByLinkId = (linkId: string): any => {
-  for (const item of questionnaireData.item) {
-    if (item.linkId === linkId) return item;
-    if (item.item) {
-      for (const subItem of item.item) {
-        if (subItem.linkId === linkId) return subItem;
-      }
-    }
-  }
-  return null;
-};
-
+// Build a submission-ready FHIR QuestionnaireResponse by taking the library's
+// response object and appending calculated score items
 export const buildQuestionnaireResponse = (
-  formData: FormData,
+  libraryResponse: QuestionnaireResponse,
   scores: SeattleAnginaScores
 ): QuestionnaireResponse | null => {
-  if (Object.keys(formData).length === 0) return null;
+  if (!libraryResponse.item || libraryResponse.item.length === 0) return null;
 
-  // Convert form responses to FHIR format
-  const responseItems = Object.entries(formData)
-    .map(([linkId, value]) => {
-      const question = findQuestionByLinkId(linkId);
-      if (question?.type === "choice" && typeof value === "string") {
-        const option = question.answerOption?.find(
-          (opt: { valueCoding?: { code: string } }) => opt.valueCoding?.code === value
-        );
-        return option ? { linkId, answer: [{ valueCoding: option.valueCoding }] } : null;
-      }
-      return null;
-    })
-    .filter(Boolean);
+  // Filter out any existing score items (we'll re-add with calculated values)
+  const scoreIds = new Set(["94960", "94961", "94962", "94963"]);
+  const responseItems = libraryResponse.item.filter(
+    (item) => !scoreIds.has(item.linkId)
+  );
 
   // Add calculated scores as decimal values
   const scoreItems = [
@@ -58,12 +26,12 @@ export const buildQuestionnaireResponse = (
       linkId: "94963",
       answer: [{ valueDecimal: Number(scores.overallSummaryScore.toFixed(2)) }],
     },
-  ].filter(Boolean);
+  ].filter(Boolean) as QuestionnaireResponse["item"] & object[];
 
   return {
     resourceType: "QuestionnaireResponse",
     questionnaire: process.env.NEXT_PUBLIC_WELSHARE_QUESTIONNAIRE_ID || questionnaireData.url,
     status: "completed",
-    item: [...responseItems, ...scoreItems] as QuestionnaireResponse["item"],
+    item: [...responseItems, ...scoreItems],
   };
 };
