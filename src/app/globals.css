@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "@welshare/questionnaire/tokens.css";
+@import "@welshare/questionnaire/styles.css";
 
 :root {
   --color-primary: #663399;
@@ -6,6 +8,46 @@
   --color-text: #1f1f2e;
   --color-text-muted: #6b6b80;
   --color-border: #e0dae8;
+
+  /* Override @welshare/questionnaire tokens to match app theme */
+  --wq-color-primary-50: #f3eff8;
+  --wq-color-primary-100: #e8dff0;
+  --wq-color-primary-200: #d0bfe1;
+  --wq-color-primary-500: #663399;
+  --wq-color-primary-600: #552e7a;
+  --wq-color-primary-700: #442560;
+
+  --wq-color-background: #faf8fc;
+  --wq-color-surface: #ffffff;
+  --wq-color-border: #e0dae8;
+  --wq-color-border-hover: #c4b5d4;
+  --wq-color-border-focus: #663399;
+
+  --wq-color-text-primary: #1f1f2e;
+  --wq-color-text-secondary: #4a4a5a;
+  --wq-color-text-tertiary: #6b6b80;
+  --wq-color-text-disabled: #9ca3af;
+  --wq-color-text-placeholder: #9ca3af;
+
+  --wq-color-primary: #663399;
+  --wq-color-primary-hover: #552e7a;
+  --wq-color-primary-focus: #f3eff8;
+
+  --wq-color-selected: #f3eff8;
+  --wq-color-selected-border: #663399;
+}
+
+/* Force light theme for questionnaire library regardless of system preference */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --wq-color-background: #faf8fc;
+    --wq-color-surface: #ffffff;
+    --wq-color-border: #e0dae8;
+    --wq-color-border-hover: #c4b5d4;
+    --wq-color-text-primary: #1f1f2e;
+    --wq-color-text-secondary: #4a4a5a;
+    --wq-color-text-tertiary: #6b6b80;
+  }
 }
 
 body {
@@ -21,32 +63,6 @@ body {
   border-radius: 8px;
 }
 
-.form-field {
-  margin-bottom: 1.5rem;
-}
-
-.form-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  color: var(--color-primary);
-  font-weight: 600;
-  font-size: 0.9rem;
-}
-
-.form-input,
-.form-select {
-  width: 100%;
-  padding: 0.75rem;
-  border: 1px solid var(--color-border);
-  border-radius: 6px;
-  font-size: 1rem;
-}
-
-.form-input:focus,
-.form-select:focus {
-  outline: none;
-  border-color: var(--color-primary);
-}
 
 .form-button {
   background-color: var(--color-primary);
