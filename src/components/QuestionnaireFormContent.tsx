@@ -23,15 +23,28 @@ const STORAGE_KEY = "seattle-angina-form-draft";
 
 // Required question linkIds (all choice questions the user must answer)
 const REQUIRED_QUESTION_IDS = [
-  "94952", "94953", "94954", "94955", "94956", "94957", "94959",
+  "94952",
+  "94953",
+  "94954",
+  "94955",
+  "94956",
+  "94957",
+  "94959",
 ];
 
 export default function QuestionnaireFormContent() {
-  const { questionnaire, response, getAnswer, updateAnswer } =
-    useQuestionnaire();
+  const {
+    questionnaire,
+    response,
+    getAnswer,
+    updateAnswer,
+    debugMode,
+    toggleDebugMode,
+  } = useQuestionnaire();
   const { storageKey, makeStorageKey } = useStorageKey();
   const { user } = usePrivy();
 
+  const [showPills, setShowPills] = useState(false);
   const [showConsent, setShowConsent] = useState(false);
   const [hasConsented, setHasConsented] = useState(false);
   const restoredRef = useRef(false);
@@ -51,7 +64,11 @@ export default function QuestionnaireFormContent() {
       for (const [linkId, code] of Object.entries(parsed)) {
         if (typeof code === "string" && code) {
           // Find the full valueCoding from the questionnaire to restore properly
-          const coding = findCodingForCode(questionnaire.item ?? [], linkId, code);
+          const coding = findCodingForCode(
+            questionnaire.item ?? [],
+            linkId,
+            code
+          );
           if (coding) {
             updateAnswer(linkId, { valueCoding: coding });
           }
@@ -123,7 +140,11 @@ export default function QuestionnaireFormContent() {
     <>
       <form onSubmit={handleSubmit}>
         {visibleItems.map((item) => (
-          <QuestionRenderer key={item.linkId} item={item as QuestionnaireItem} />
+          <QuestionRenderer
+            key={item.linkId}
+            item={item as QuestionnaireItem}
+            choiceLayout={showPills ? "inline-wrap" : "stacked"}
+          />
         ))}
 
         <ScoreDisplay scores={scores} />
@@ -180,10 +201,38 @@ export default function QuestionnaireFormContent() {
                   {isSubmitting
                     ? "Submitting..."
                     : hasConsented
-                      ? "Submit to Welshare"
-                      : "Save to Welshare"}
+                    ? "Submit to Welshare"
+                    : "Save to Welshare"}
                 </button>
               </>
+            )}
+          </div>
+          <div className="flex flex-col gap-2">
+            <div className="flex justify-end ">
+              <button
+                className="wq-button wq-button-outline"
+                onClick={() => {
+                  toggleDebugMode();
+                }}
+              >
+                Debug Mode: {debugMode ? "On" : "Off"}
+              </button>
+              <button
+                className="wq-button wq-button-outline"
+                onClick={() => {
+                  setShowPills((o) => !o);
+                }}
+              >
+                Choices: {showPills ? "Pills" : "Stacked"}
+              </button>
+            </div>
+            {debugMode && (
+              <textarea
+                value={JSON.stringify(response, null, 2)}
+                rows={10}
+                cols={50}
+                readOnly
+              />
             )}
           </div>
         </div>
