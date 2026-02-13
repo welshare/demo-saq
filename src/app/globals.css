@@ -63,7 +63,6 @@ body {
   border-radius: 8px;
 }
 
-
 .form-button {
   background-color: var(--color-primary);
   color: #ffffff;
@@ -163,6 +162,53 @@ body {
   margin-bottom: 0.75rem;
 }
 
+/* Inverted score panel - primary bg with light text */
+.score-panel--inverted {
+  background-color: var(--color-primary);
+  border-color: var(--color-primary);
+  color: #ffffff;
+}
+
+.score-panel-title--inverted {
+  color: var(--color-primary-light);
+  margin-bottom: 0.5rem;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.score-panel-content {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.score-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+}
+
+.score-label {
+  font-size: 0.9rem;
+  opacity: 0.9;
+}
+
+.score-value {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--color-primary-light);
+  font-variant-numeric: tabular-nums;
+}
+
+.score-range {
+  font-size: 0.75rem;
+  opacity: 0.7;
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
 /* Submission options */
 .submission-options {
   margin-top: 2rem;
@@ -224,7 +270,9 @@ body {
   display: grid;
   grid-template-rows: 0fr;
   overflow: hidden;
-  transition: grid-template-rows 0.3s ease-out, margin 0.3s ease-out;
+  transition:
+    grid-template-rows 0.3s ease-out,
+    margin 0.3s ease-out;
 }
 
 .consent-panel-open {

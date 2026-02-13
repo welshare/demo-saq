@@ -69,7 +69,7 @@ export default function QuestionnaireFormContent() {
           const coding = findCodingForCode(
             questionnaire.item ?? [],
             linkId,
-            code
+            code,
           );
           if (coding) {
             updateAnswer(linkId, { valueCoding: coding });
@@ -99,7 +99,7 @@ export default function QuestionnaireFormContent() {
       }
     }
     return _answerCodes;
-  }, [response]);
+  }, [getAnswer]);
 
   // Sync answer codes to sessionStorage
   useEffect(() => {
@@ -131,7 +131,7 @@ export default function QuestionnaireFormContent() {
     response,
     scores,
     storageKey,
-    clearFormData
+    clearFormData,
   );
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -145,7 +145,7 @@ export default function QuestionnaireFormContent() {
 
   // Render visible top-level items
   const visibleItems = (questionnaire.item ?? []).filter(
-    (item) => !isQuestionHidden(item)
+    (item) => !isQuestionHidden(item),
   );
 
   return (
@@ -213,8 +213,8 @@ export default function QuestionnaireFormContent() {
                   {isSubmitting
                     ? "Submitting..."
                     : hasConsented
-                    ? "Submit to Welshare"
-                    : "Save to Welshare"}
+                      ? "Submit to Welshare"
+                      : "Save to Welshare"}
                 </button>
               </>
             )}
@@ -262,12 +262,12 @@ export default function QuestionnaireFormContent() {
 function findCodingForCode(
   items: QuestionnaireItem[],
   linkId: string,
-  code: string
+  code: string,
 ): Coding | undefined {
   for (const item of items) {
     if (item.linkId === linkId) {
       const option = item.answerOption?.find(
-        (opt) => opt.valueCoding?.code === code
+        (opt) => opt.valueCoding?.code === code,
       );
       return option?.valueCoding ?? undefined;
     }
